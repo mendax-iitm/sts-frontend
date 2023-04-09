@@ -14,13 +14,13 @@
               </h3>
             </router-link>
             <hr class="ms-3" />
-            <div v-if="faq.length == 0" class="text-center">
+            <div class="text-center" v-if="faq.length == 0">
               <router-link :to="'/subject/' + subject">Click Here to view all the tickets of this subject</router-link>
             </div>
             <div v-else>
               <ul v-for="ticket in faq" :key="ticket.title">
                 <router-link :to="'/ticket/' + ticket.ticket_id">
-                  <li class="card-title">{{ ticket.title }}</li>
+                  <li>{{ ticket.title }}</li>
                 </router-link>
               </ul>
             </div>
@@ -55,7 +55,7 @@ export default {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
+        // Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     })
       .then((response) => {
@@ -69,8 +69,7 @@ export default {
         const subject_names = data.map((x) => x.subject_name);
         // subject_names=['MLT', 'BDM', 'BA'] (output format)
         for (const subject of subject_names) {
-          fetch(
-            `http://127.0.0.1:5500/api/subject/${subject}?FAQ=True&limit=5`,
+          fetch(`http://127.0.0.1:5500/api/subject/${subject}?FAQ=True&limit=5`,
             {
               method: "GET",
               headers: {
@@ -118,14 +117,6 @@ body {
 a {
   color: #653239;
   text-decoration: none;
-}
-
-.search {
-  margin-left: 9%;
-  width: 30%;
-  height: 3rem;
-  padding: 1rem;
-  border-radius: 50px;
-  margin-right: -50px;
+  text-align: left;
 }
 </style>
