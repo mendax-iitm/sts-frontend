@@ -126,6 +126,7 @@ export default {
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("username", this.username);
               localStorage.setItem("role", "student");
+              localStorage.setItem("user_id", data.user_id);
               router.push("/about");
             } else {
               this.errStatus = true;

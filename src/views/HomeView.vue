@@ -132,6 +132,7 @@ export default {
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("username", this.username);
               localStorage.setItem("role", data.role);
+              localStorage.setItem("user_id", data.user_id);
               router.push("/dash");
             } else {
               this.errStatus = true;
