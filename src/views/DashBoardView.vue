@@ -8,22 +8,20 @@
       <div class="col-sm-4" v-for="(faq, subject) in subjects" :key="subject">
         <div class="card mt-3" style="margin-left: 5%; margin-right: 5%">
           <div class="card-body">
-            <router-link :to="'/subject/' + subject"
-              ><h3 class="card-title text-center">
+            <router-link :to="'/subject/' + subject">
+              <h3 class="card-title text-center">
                 {{ subject }}
-              </h3></router-link
-            >
+              </h3>
+            </router-link>
             <hr class="ms-3" />
             <div v-if="faq.length == 0" class="text-center">
-              <router-link :to="'/subject/' + subject"
-                >Click Here to view all the tickets of this subject</router-link
-              >
+              <router-link :to="'/subject/' + subject">Click Here to view all the tickets of this subject</router-link>
             </div>
             <div v-else>
               <ul v-for="ticket in faq" :key="ticket.title">
                 <router-link :to="'/ticket/' + ticket.ticket_id">
-                  <li class="card-title">{{ ticket.title }}</li></router-link
-                >
+                  <li class="card-title">{{ ticket.title }}</li>
+                </router-link>
               </ul>
             </div>
           </div>

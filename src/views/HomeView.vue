@@ -3,18 +3,12 @@
     <div class="container-fluid">
       <div class="navbar-brand mx-auto">
         <router-link to="/">
-          <img
-            src="../assets/logo1.png"
-            alt="Logo"
-            width="180"
-            height="80"
-            class="d-inline-block align-text-top"
-          />
+          <img src="../assets/logo1.png" alt="Logo" width="180" height="80" class="d-inline-block align-text-top" />
         </router-link>
       </div>
 
-      <router-link to="/enroll"
-        ><div class="txt-color">Enroll as Staff</div>
+      <router-link to="/enroll">
+        <div class="txt-color">Enroll as Staff</div>
       </router-link>
     </div>
   </nav>
@@ -24,11 +18,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <img
-              src="../assets/undraw_remotely_2j6y.svg"
-              alt="Image"
-              class="img-fluid"
-            />
+            <img src="../assets/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid" />
           </div>
           <div class="col-md-6 contents">
             <div class="row justify-content-center">
@@ -43,13 +33,8 @@
                     <p class="alert alert-danger">{{ errormsg }}</p>
                   </div>
                   <div class="form-floating mb-3">
-                    <input
-                      type="text"
-                      v-model="username"
-                      class="form-control"
-                      id="floatingInput"
-                      placeholder="username"
-                    />
+                    <input type="text" v-model="username" class="form-control" id="floatingInput"
+                      placeholder="username" />
                     <label for="floatingInput">Username</label>
                     <div class="error" v-if="v$.username.$error">
                       Username is required.
@@ -57,31 +42,20 @@
                   </div>
 
                   <div class="form-floating mb-3">
-                    <input
-                      type="password"
-                      v-model="password"
-                      class="form-control"
-                      id="floatingPassword"
-                      placeholder="Password"
-                    />
+                    <input type="password" v-model="password" class="form-control" id="floatingPassword"
+                      placeholder="Password" />
                     <label for="floatingPassword">Password</label>
                     <div class="error" v-if="v$.password.$error">
                       Password is required and must be of minimum 5 characters.
                     </div>
                   </div>
 
-                  <input
-                    type="submit"
-                    value="Log In"
-                    class="w-100 btn btn-block btn-primary"
-                  />
+                  <input type="submit" value="Log In" class="w-100 btn btn-block btn-primary" />
                 </form>
 
                 <div class="mt-3 text-left fw-bold">
                   New Student?
-                  <router-link class="link-primary" to="/register"
-                    >Register</router-link
-                  >
+                  <router-link class="link-primary" to="/register">Register</router-link>
                 </div>
               </div>
             </div>
@@ -92,9 +66,7 @@
     <div class="typewriter">
       <h4 class="txt-color">
         Helping you achieve success,
-        <span style="background-color: #6b62ff; color: whitesmoke"
-          >one ticket</span
-        >
+        <span style="background-color: #6b62ff; color: whitesmoke">one ticket</span>
         at a time.
       </h4>
     </div>
@@ -184,9 +156,11 @@ export default {
 .btn-block {
   background-color: rgb(107, 98, 255);
 }
+
 .txt-color {
   color: #6b62ff;
 }
+
 .error {
   text-align: left;
   color: red;
@@ -203,11 +177,16 @@ body {
 
 /* DEMO-SPECIFIC STYLES */
 .typewriter h4 {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-  border-right: 0.15em solid orange; /* The typwriter cursor */
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
-  letter-spacing: 0.15em; /* Adjust as needed */
+  overflow: hidden;
+  /* Ensures the content is not revealed until the animation */
+  border-right: 0.15em solid orange;
+  /* The typwriter cursor */
+  white-space: nowrap;
+  /* Keeps the content on a single line */
+  margin: 0 auto;
+  /* Gives that scrolling effect as the typing happens */
+  letter-spacing: 0.15em;
+  /* Adjust as needed */
   animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
@@ -225,6 +204,7 @@ body {
   from {
     width: 0;
   }
+
   to {
     width: 70%;
   }
@@ -232,10 +212,12 @@ body {
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
+
   from,
   to {
     border-color: transparent;
   }
+
   100% {
     border-color: blue;
   }

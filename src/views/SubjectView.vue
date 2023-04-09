@@ -6,46 +6,19 @@
     </div>
     <div v-else>
       <span class="btn-group btn-group-lg" style="margin-left: 20%">
-        <input
-          type="radio"
-          class="btn-check"
-          value="faq"
-          v-model="selectedOption"
-          @change="FAQ"
-          id="btnradio1"
-        />
+        <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
         <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
 
-        <input
-          type="radio"
-          class="btn-check"
-          value="resolved"
-          v-model="selectedOption"
-          @change="RESOLVED"
-          id="btnradio2"
-        />
+        <input type="radio" class="btn-check" value="resolved" v-model="selectedOption" @change="RESOLVED"
+          id="btnradio2" />
         <label class="btn btn-outline-primary" for="btnradio2">Resolved</label>
 
-        <input
-          type="radio"
-          class="btn-check"
-          value="unresolved"
-          v-model="selectedOption"
-          @change="UNRESOLVED"
-          id="btnradio3"
-        />
-        <label class="btn btn-outline-primary" for="btnradio3"
-          >Unresolved</label
-        >
+        <input type="radio" class="btn-check" value="unresolved" v-model="selectedOption" @change="UNRESOLVED"
+          id="btnradio3" />
+        <label class="btn btn-outline-primary" for="btnradio3">Unresolved</label>
       </span>
       <span>
-        <input
-          class="search"
-          type="text"
-          id="search"
-          placeholder="Search here...."
-          v-model="search"
-        />
+        <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
         <button type="button" class="btn btn-link" @click="search_function">
           <i class="bi bi-search"></i>
         </button>
@@ -57,25 +30,14 @@
               <h3 class="text-center" v-if="!ticket_list.length">
                 No tickets found under this section.
               </h3>
-              <div
-                class="row p-1"
-                v-for="ticket in ticket_list"
-                :key="ticket.title"
-              >
-                <div
-                  class="card position-relative"
-                  style="width: 80%; margin: auto; min-height: 4em"
-                >
+              <div class="row p-1" v-for="ticket in ticket_list" :key="ticket.title">
+                <div class="card position-relative" style="width: 80%; margin: auto; min-height: 4em">
                   <div style="font-size: 2.5em" class="position-absolute">
                     {{ ticket.likes }}
                   </div>
-                  <div
-                    style="font-size: 1.5em; width: 90%; margin-left: 2.5em"
-                    class="mt-1"
-                  >
+                  <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
                     <div v-if="ticket.sec_name">
-                      <span class="badge bg-primary">{{ ticket.sec_name }}</span
-                      ><br />
+                      <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
                     </div>
                     <router-link :to="'/ticket/' + ticket.ticket_id">{{
                       ticket.title
