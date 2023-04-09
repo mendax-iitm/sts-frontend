@@ -34,88 +34,88 @@
 import NavBar from "@/components/NavBar.vue";
 import router from "@/router";
 export default {
-  name: "DashBoardView",
-  components: {
-    NavBar,
-  },
-  data: function () {
-    return {
-      username: "",
-      title: "Student Dashboard",
-      subjects: {},
-      ready: false,
-      darkMode: false,
-    };
-  },
-  methods: {},
-  mounted: function () {
-    this.username = localStorage.getItem("username");
-    fetch("http://192.168.29.220:5500/api/tag/subject", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        // Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          alert("Response not ok");
-          router.push("/");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const subject_names = data.map((x) => x.subject_name);
-        // subject_names=['MLT', 'BDM', 'BA'] (output format)
-        for (const subject of subject_names) {
-          fetch(`http://192.168.29.220:5500/api/subject/${subject}?FAQ=True&limit=5`,
-            {
-              method: "GET",
-              headers: {
+    name: "DashBoardView",
+    components: {
+        NavBar,
+    },
+    data: function () {
+        return {
+            username: "",
+            title: "Student Dashboard",
+            subjects: {},
+            ready: false,
+            darkMode: false,
+        };
+    },
+    methods: {},
+    mounted: function () {
+        this.username = localStorage.getItem("username");
+        fetch("http://127.0.0.1:5500/api/tag/subject", {
+            method: "GET",
+            headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + localStorage.getItem("access_token"),
-              },
-            }
-          )
+                // Authorization: "Bearer " + localStorage.getItem("access_token"),
+            },
+        })
             .then((response) => {
-              if (!response.ok) {
-                alert("Response not ok");
-                router.push("/");
-              }
-              return response.json();
+                if (!response.ok) {
+                    alert("Response not ok");
+                    router.push("/");
+                }
+                return response.json();
             })
-            .then((data) => (this.subjects[subject] = data));
-        }
-      })
-      .catch((err) => console.log(err));
-    this.ready = true;
-  },
+            .then((data) => {
+                const subject_names = data.map((x) => x.subject_name);
+                // subject_names=['MLT', 'BDM', 'BA'] (output format)
+                for (const subject of subject_names) {
+                    fetch(`http://127.0.0.1:5500/api/subject/${subject}?FAQ=True&limit=5`,
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Access-Control-Allow-Origin": "*",
+                                Authorization: "Bearer " + localStorage.getItem("access_token"),
+                            },
+                        }
+                    )
+                        .then((response) => {
+                            if (!response.ok) {
+                                alert("Response not ok");
+                                router.push("/");
+                            }
+                            return response.json();
+                        })
+                        .then((data) => (this.subjects[subject] = data));
+                }
+            })
+            .catch((err) => console.log(err));
+        this.ready = true;
+    },
 };
 </script>
 <style scoped>
 hr {
-  border-top: solid #182825;
-  border-width: 5px;
+    border-top: solid #182825;
+    border-width: 5px;
 }
 
 .card hr {
-  border-width: 5px;
-  border-color: #182825;
+    border-width: 5px;
+    border-color: #182825;
 }
 
 .card {
-  background-color: #b8b4ff;
-  color: #653239;
+    background-color: #b8b4ff;
+    color: #653239;
 }
 
 body {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 a {
-  color: #653239;
-  text-decoration: none;
+    color: #653239;
+    text-decoration: none;
 }
 </style>

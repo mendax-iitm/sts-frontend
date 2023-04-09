@@ -101,7 +101,7 @@ export default {
       if (this.v$.$error) {
         console.log("fail");
       } else {
-        fetch("http://192.168.29.220:5500/api/register", {
+        fetch("http://127.0.0.1:5500/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
