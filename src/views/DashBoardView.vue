@@ -50,7 +50,7 @@ export default {
   methods: {},
   mounted: function () {
     this.username = localStorage.getItem("username");
-    fetch("http://127.0.0.1:5500/api/tag/subject", {
+    fetch("http://192.168.29.220:5500/api/tag/subject", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export default {
         const subject_names = data.map((x) => x.subject_name);
         // subject_names=['MLT', 'BDM', 'BA'] (output format)
         for (const subject of subject_names) {
-          fetch(`http://127.0.0.1:5500/api/subject/${subject}?FAQ=True&limit=5`,
+          fetch(`http://192.168.29.220:5500/api/subject/${subject}?FAQ=True&limit=5`,
             {
               method: "GET",
               headers: {
@@ -117,6 +117,5 @@ body {
 a {
   color: #653239;
   text-decoration: none;
-  text-align: left;
 }
 </style>
