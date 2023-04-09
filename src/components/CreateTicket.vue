@@ -1,7 +1,7 @@
 <template>
-  <div class="container p-5">
+  <div class="">
     <!-- Button trigger modal -->
-    <i type="button" class="bi bi-plus-circle-fill text-success" style="font-size: 3rem" data-bs-toggle="modal"
+    <i type="button" class="bi bi-plus-circle-fill text-success plus" style="font-size: 4rem" data-bs-toggle="modal"
       data-bs-target="#exampleModal">
     </i>
 
@@ -25,9 +25,7 @@
               </div>
               <h1 class="h3 mb-3 fw-normal">
                 Create a new ticket in
-                <span style="background-color: #6b62ff; color: whitesmoke">{{
-                  subject_tag
-                }}</span>
+                <span style="background-color: #6b62ff; color: whitesmoke">{{ subject_tag }}</span>
               </h1>
 
               <div class="form-floating mb-3">
@@ -171,6 +169,12 @@ export default {
 <style scoped>
 .btn-block {
   background-color: rgb(107, 98, 255);
+}
+
+.plus {
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
 }
 
 .error {
