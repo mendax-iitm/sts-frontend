@@ -4,7 +4,7 @@
     <i
       type="button"
       class="bi bi-plus-circle-fill text-success"
-      style="font-size: 5rem"
+      style="font-size: 3rem"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
     >
