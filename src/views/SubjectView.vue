@@ -5,7 +5,7 @@
       <h1>Please wait Loading</h1>
     </div>
     <div v-else>
-      <span class="btn-group btn-group-lg" style="margin-left: 20%">
+      <span class="btn-group btn-group-lg" style="margin-left: 22%">
         <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
         <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
 
@@ -24,34 +24,26 @@
         </button>
       </span>
       <div class="container">
-        <div class="row align-items-start">
-          <div class="col-8">
-            <div class="container-fluid">
-              <h3 class="text-center" v-if="!ticket_list.length">
-                No tickets found under this section.
-              </h3>
-              <div class="row p-1" v-for="ticket in ticket_list" :key="ticket.title">
-                <div class="card position-relative" style="width: 80%; margin: auto; min-height: 4em">
-                  <div style="font-size: 2.5em" class="position-absolute">
-                    {{ ticket.likes }}
-                  </div>
-                  <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
-                    <div v-if="ticket.sec_name">
-                      <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
-                    </div>
-                    <router-link :to="'/ticket/' + ticket.ticket_id">{{
-                      ticket.title
-                    }}</router-link>
-                  </div>
+        <div class="row">
+          <h3 class="text-center" v-if="!ticket_list.length">
+            No tickets found under this section.
+          </h3>
+          <div class="row p-1" v-for="ticket in ticket_list" :key="ticket.title">
+            <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
+              <div style="font-size: 2.5em" class="position-absolute">
+                {{ ticket.likes }}
+              </div>
+              <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
+                <div v-if="ticket.sec_name">
+                  <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
                 </div>
+                <router-link :to="'/ticket/' + ticket.ticket_id">{{
+                  ticket.title
+                }}</router-link>
               </div>
             </div>
           </div>
-          <div class="col">
-            <div class="container-fluid">
-              <CreateTicket :subject_tag="subject_name" />
-            </div>
-          </div>
+          <CreateTicket :subject_tag="subject_name" />
         </div>
       </div>
       <div class="row justify-content-end"></div>
