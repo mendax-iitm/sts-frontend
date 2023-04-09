@@ -169,6 +169,7 @@ export default {
             if (data.access_token) {
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("username", this.username);
+              localStorage.setItem("role", "staff");
               router.push("/about");
             } else {
               this.errStatus = true;

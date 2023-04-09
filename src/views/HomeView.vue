@@ -159,7 +159,8 @@ export default {
             if (data.access_token) {
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("username", this.username);
-              router.push("/about");
+              localStorage.setItem("role", data.role);
+              router.push("/dash");
             } else {
               this.errStatus = true;
               this.errormsg = data.error_message;
@@ -181,7 +182,7 @@ export default {
 </script>
 <style scoped>
 .btn-block {
-  background-color: #6b62ff;
+  background-color: rgb(107, 98, 255);
 }
 .txt-color {
   color: #6b62ff;
