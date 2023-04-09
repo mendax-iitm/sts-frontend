@@ -4,11 +4,7 @@
     <div class="position-relative" style="margin-left: 3%; margin-right: 3%">
       <h3 class="ms-3">Welcome {{ username }}</h3>
       <div class="text-end me-1 position-absolute top-0 end-0">
-        <button
-          @click="logout"
-          style="font-size: large; color: whitesmoke"
-          class="btn btn-block"
-        >
+        <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-block">
           Logout <i class="bi bi-box-arrow-right"></i>
         </button>
       </div>
@@ -33,6 +29,7 @@ export default {
 .btn-block {
   background-color: #653239;
 }
+
 .txt-color {
   color: #6b62ff;
 }

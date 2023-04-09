@@ -3,13 +3,7 @@
     <div class="container-fluid">
       <div class="navbar-brand mx-auto">
         <router-link to="/">
-          <img
-            src="../assets/logo1.png"
-            alt="Logo"
-            width="180"
-            height="80"
-            class="d-inline-block align-text-top"
-          />
+          <img src="../assets/logo1.png" alt="Logo" width="180" height="80" class="d-inline-block align-text-top" />
         </router-link>
       </div>
     </div>
@@ -23,22 +17,12 @@
         <p class="alert alert-danger">{{ errormsg }}</p>
       </div>
       <div class="form-floating mb-3">
-        <input
-          type="text"
-          v-model="username"
-          class="form-control"
-          placeholder="username"
-        />
+        <input type="text" v-model="username" class="form-control" placeholder="username" />
         <label for="floatingInput">Username</label>
         <div class="error" v-if="v$.username.$error">Username is required</div>
       </div>
       <div class="form-floating mb-3">
-        <input
-          type="email"
-          v-model="email"
-          class="form-control"
-          placeholder="email"
-        />
+        <input type="email" v-model="email" class="form-control" placeholder="email" />
         <label for="floatingInput">Email</label>
         <div class="error" v-if="v$.email.$error">
           Email is required.Enter in correct format
@@ -48,43 +32,23 @@
           </div> -->
       </div>
       <div class="form-floating mb-3">
-        <input
-          type="password"
-          v-model="password"
-          class="form-control"
-          id="floatingPassword"
-          placeholder="Password"
-        />
+        <input type="password" v-model="password" class="form-control" id="floatingPassword" placeholder="Password" />
         <label for="floatingPassword">Password</label>
         <div class="error" v-if="v$.password.$error">
           Password is required and must be of minimum 5 characters.
         </div>
       </div>
       <div class="form-floating mb-3">
-        <input
-          type="password"
-          v-model="repeatPassword"
-          class="form-control"
-          id="floatingPassword2"
-          placeholder="Password"
-        />
+        <input type="password" v-model="repeatPassword" class="form-control" id="floatingPassword2"
+          placeholder="Password" />
         <label for="floatingPassword">Type Password Again</label>
         <div class="error" v-if="v$.repeatPassword.$error">
           Passwords must be identical.
         </div>
       </div>
       <div class="form-floating mb-3">
-        <select
-          name="move-list"
-          id="move-list"
-          v-model="subject_id"
-          class="form-control"
-        >
-          <option
-            v-for="subject in allsubjects"
-            :key="subject.subject_id"
-            :value="subject.subject_id"
-          >
+        <select name="move-list" id="move-list" v-model="subject_id" class="form-control">
+          <option v-for="subject in allsubjects" :key="subject.subject_id" :value="subject.subject_id">
             {{ subject.subject_name }}
           </option>
         </select>

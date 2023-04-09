@@ -1,36 +1,20 @@
 <template>
   <div class="container p-5">
     <!-- Button trigger modal -->
-    <i
-      type="button"
-      class="bi bi-plus-circle-fill text-success"
-      style="font-size: 3rem"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-    >
+    <i type="button" class="bi bi-plus-circle-fill text-success" style="font-size: 3rem" data-bs-toggle="modal"
+      data-bs-target="#exampleModal">
     </i>
 
     <!-- Modal -->
 
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-danger" id="exampleModalLabel">
               Create Ticket Form
             </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form @submit.prevent="CreateTicket">
@@ -47,13 +31,7 @@
               </h1>
 
               <div class="form-floating mb-3">
-                <input
-                  type="text"
-                  v-model="title"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder="Title"
-                />
+                <input type="text" v-model="title" class="form-control" id="floatingInput" placeholder="Title" />
                 <label for="floatingInput">Title</label>
                 <div class="error" v-if="v$.title.$error">
                   Title is required
@@ -61,31 +39,16 @@
               </div>
 
               <div class="form-floating mb-3">
-                <textarea
-                  type="textarea"
-                  v-model="desc"
-                  rows="10"
-                  class="form-control"
-                  id="floatingContent"
-                  placeholder="Please enter your Description"
-                />
+                <textarea type="textarea" v-model="desc" rows="10" class="form-control" id="floatingContent"
+                  placeholder="Please enter your Description" />
                 <label for="floatingContent">Content</label>
                 <div class="error" v-if="v$.desc.$error">
                   Content is required.
                 </div>
               </div>
               <div class="form-floating mb-3">
-                <select
-                  name="move-list"
-                  id="move-list"
-                  v-model="sec_tag_name"
-                  class="form-control"
-                >
-                  <option
-                    v-for="sec_tag in sec_tag_list"
-                    :key="sec_tag.sec_id"
-                    :value="sec_tag.sec_name"
-                  >
+                <select name="move-list" id="move-list" v-model="sec_tag_name" class="form-control">
+                  <option v-for="sec_tag in sec_tag_list" :key="sec_tag.sec_id" :value="sec_tag.sec_name">
                     {{ sec_tag.sec_name }}
                   </option>
                 </select>
@@ -101,11 +64,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-warning"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
               Close
             </button>
           </div>
@@ -213,6 +172,7 @@ export default {
 .btn-block {
   background-color: rgb(107, 98, 255);
 }
+
 .error {
   text-align: left;
   color: red;
