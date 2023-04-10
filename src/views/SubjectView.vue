@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar :title="title" :username="username"></NavBar>
+    <NavBar :title="title" :username="username" :forAdmin="'true'"></NavBar>
     <div>
       <SideBar @filter-change="tagFilter" @Reset="resetFilter"></SideBar>
       <span class="btn-group btn-group-lg" style="margin-left: 22%">
@@ -92,7 +92,7 @@ export default {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("Response not ok");
+            alert("PLease login first");
             router.push("/");
           }
           return response.json();
@@ -155,6 +155,10 @@ export default {
     },
   },
   beforeMount() {
+    if (localStorage.getItem('access_token') == null) {
+      alert("Login first");
+      return router.push("/");
+    }
     this.username = localStorage.getItem("username");
     this.FAQ();
   },
