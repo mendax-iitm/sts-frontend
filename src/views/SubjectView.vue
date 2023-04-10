@@ -1,10 +1,8 @@
 <template>
   <div>
     <NavBar :title="title" :username="username"></NavBar>
-    <div v-if="!ready" class="text-center">
-      <h1>Please wait Loading</h1>
-    </div>
-    <div v-else>
+    <div>
+      <SideBar @filter-change="tagFilter" @Reset="resetFilter"></SideBar>
       <span class="btn-group btn-group-lg" style="margin-left: 22%">
         <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
         <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
@@ -23,12 +21,12 @@
           <i class="bi bi-search"></i>
         </button>
       </span>
-      <div class="container">
+      <div class="container pt-2">
         <div class="row">
-          <h3 class="text-center" v-if="!ticket_list.length">
+          <h3 class="text-center" v-if="!filtered_list.length">
             No tickets found under this section.
           </h3>
-          <div class="row p-1" v-for="ticket in ticket_list" :key="ticket.title">
+          <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
             <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
               <div style="font-size: 2.5em" class="position-absolute">
                 {{ ticket.likes }}
@@ -52,6 +50,7 @@
 </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
+import SideBar from "@/components/SideBar.vue";
 import router from "@/router";
 import CreateTicket from "@/components/CreateTicket.vue";
 export default {
@@ -59,15 +58,16 @@ export default {
   components: {
     NavBar,
     CreateTicket,
+    SideBar
   },
   data: function () {
     return {
       subject_name: this.$route.params.subject,
       title: "Subject Dashboard",
       ticket_list: [],
+      filtered_list: [],
       search: "",
       selectedOption: "faq",
-      ready: false,
       username: "",
     };
   },
@@ -75,8 +75,13 @@ export default {
     search_function() {
       alert(this.search);
     },
+    tagFilter(value) {
+      this.filtered_list = this.ticket_list.filter(x => x.sec_name == value)
+    },
+    resetFilter() {
+      this.filtered_list = this.ticket_list;
+    },
     FAQ() {
-      this.ready = false;
       fetch(`http://127.0.0.1:5500/api/subject/${this.subject_name}?FAQ=True`, {
         method: "GET",
         headers: {
@@ -94,12 +99,11 @@ export default {
         })
         .then((data) => {
           this.ticket_list = data;
-          this.ready = true;
+          this.filtered_list = data;
         })
         .catch((err) => console.log(err));
     },
     RESOLVED() {
-      this.ready = false;
       fetch(
         `http://127.0.0.1:5500/api/subject/${this.subject_name}?ResolvedStatus=True`,
         {
@@ -120,12 +124,11 @@ export default {
         })
         .then((data) => {
           this.ticket_list = data;
-          this.ready = true;
+          this.filtered_list = data;
         })
         .catch((err) => console.log(err));
     },
     UNRESOLVED() {
-      this.ready = false;
       fetch(
         `http://127.0.0.1:5500/api/subject/${this.subject_name}?ResolvedStatus=False`,
         {
@@ -146,12 +149,12 @@ export default {
         })
         .then((data) => {
           this.ticket_list = data;
-          this.ready = true;
+          this.filtered_list = data;
         })
         .catch((err) => console.log(err));
     },
   },
-  mounted: function () {
+  beforeMount() {
     this.username = localStorage.getItem("username");
     this.FAQ();
   },
