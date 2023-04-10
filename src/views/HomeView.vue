@@ -178,6 +178,8 @@ body {
 
 /* DEMO-SPECIFIC STYLES */
 .typewriter h4 {
+  text-align: center;
+
   overflow: hidden;
   /* Ensures the content is not revealed until the animation */
   border-right: 0.15em solid orange;
