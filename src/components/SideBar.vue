@@ -8,7 +8,6 @@
                 <label class="form-check-label" :for=index>{{ tag }} </label>
             </div>
         </div>
-        {{ reload }}
     </div>
 </template>
 <script>
