@@ -8,6 +8,7 @@
                 <label class="form-check-label" :for=index>{{ tag }} </label>
             </div>
         </div>
+        {{ reload }}
     </div>
 </template>
 <script>
@@ -19,6 +20,7 @@ export default {
             sec_tag_list: ''
         }
     },
+    props: ["reload"],
     methods: {
         notify() {
             this.$emit('filter-change', this.selectedOption);
@@ -26,6 +28,13 @@ export default {
         reset() {
             this.selectedOption = '';
             this.$emit('reset');
+        }
+    },
+    watch: {
+        reload(oldv) {
+            if (oldv) {
+                this.reset();
+            }
         }
     },
     beforeCreate() {
