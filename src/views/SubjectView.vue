@@ -1,45 +1,42 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <NavBar :title="title" :username="username"></NavBar>
-    <div>
-      <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
-      <span class="btn-group btn-group-lg" style="margin-left: 22%">
-        <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
-        <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
+    <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
+    <span class="btn-group btn-group-lg" style="margin-left: 20rem">
+      <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
+      <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
 
-        <input type="radio" class="btn-check" value="resolved" v-model="selectedOption" @change="RESOLVED"
-          id="btnradio2" />
-        <label class="btn btn-outline-primary" for="btnradio2">Resolved</label>
+      <input type="radio" class="btn-check" value="resolved" v-model="selectedOption" @change="RESOLVED" id="btnradio2" />
+      <label class="btn btn-outline-primary" for="btnradio2">Resolved</label>
 
-        <input type="radio" class="btn-check" value="unresolved" v-model="selectedOption" @change="UNRESOLVED"
-          id="btnradio3" />
-        <label class="btn btn-outline-primary" for="btnradio3">Unresolved</label>
-      </span>
-      <form class="search" @submit.prevent="search_function">
-        <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
-        <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
-      </form>
-      <div class="container pt-2">
-        <div class="row">
-          <div class="text-center" v-if="!filtered_list.length">
-            <img src="../assets/notFound.jpg" alt="" sizes="" srcset="">
-            <h3>No tickets found under this section.</h3>
-          </div>
-          <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
-            <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
-              <div style="font-size: 2.5em" class="position-absolute">
-                {{ ticket.likes }}
+      <input type="radio" class="btn-check" value="unresolved" v-model="selectedOption" @change="UNRESOLVED"
+        id="btnradio3" />
+      <label class="btn btn-outline-primary" for="btnradio3">Unresolved</label>
+    </span>
+    <form class="search" @submit.prevent="search_function">
+      <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
+      <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
+    </form>
+    <div class="container pt-2">
+      <div class="row">
+        <div class="text-center" v-if="!filtered_list.length">
+          <img src="../assets/notFound.jpg" alt="" sizes="" srcset="">
+          <h3>No tickets found under this section.</h3>
+        </div>
+        <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
+          <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
+            <div style="font-size: 2.5em" class="position-absolute">
+              {{ ticket.likes }}
+            </div>
+            <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
+              <div v-if="ticket.sec_name">
+                <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
               </div>
-              <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
-                <div v-if="ticket.sec_name">
-                  <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
-                </div>
-                <router-link :to="'/ticket/' + ticket.ticket_id">{{ ticket.title }}</router-link>
-              </div>
+              <router-link :to="'/ticket/' + ticket.ticket_id">{{ ticket.title }}</router-link>
             </div>
           </div>
-          <CreateTicket :subject_tag="subject_name" />
         </div>
+        <CreateTicket :subject_tag="subject_name" />
       </div>
     </div>
   </div>
