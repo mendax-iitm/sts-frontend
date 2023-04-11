@@ -128,7 +128,7 @@
     <div class="row m-3">
 
         <!-- Response Form -->
-      <form @submit.prevent="AddResponse">
+      <form v-if="ticket_details.ticket_status == 'unresolved'" @submit.prevent="AddResponse">
         <div class="form-floating mb-3">
           <textarea
             type="textarea"
