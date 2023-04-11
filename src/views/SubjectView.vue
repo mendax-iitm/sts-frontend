@@ -2,7 +2,7 @@
   <div>
     <NavBar :title="title" :username="username" :forAdmin="'true'"></NavBar>
     <div>
-      <SideBar @filter-change="tagFilter" @Reset="resetFilter"></SideBar>
+      <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
       <span class="btn-group btn-group-lg" style="margin-left: 22%">
         <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
         <label class="btn btn-outline-primary" for="btnradio1">FAQ</label>
@@ -69,6 +69,7 @@ export default {
       search: "",
       selectedOption: "faq",
       username: "",
+      reload: false,
     };
   },
   methods: {
@@ -76,12 +77,14 @@ export default {
       alert(this.search);
     },
     tagFilter(value) {
+      this.reload = false;
       this.filtered_list = this.ticket_list.filter(x => x.sec_name == value)
     },
     resetFilter() {
       this.filtered_list = this.ticket_list;
     },
     FAQ() {
+      this.reload = true;
       fetch(`http://127.0.0.1:5500/api/subject/${this.subject_name}?FAQ=True`, {
         method: "GET",
         headers: {
@@ -104,6 +107,7 @@ export default {
         .catch((err) => console.log(err));
     },
     RESOLVED() {
+      this.reload = true;
       fetch(
         `http://127.0.0.1:5500/api/subject/${this.subject_name}?ResolvedStatus=True`,
         {
@@ -129,6 +133,7 @@ export default {
         .catch((err) => console.log(err));
     },
     UNRESOLVED() {
+      this.reload = true;
       fetch(
         `http://127.0.0.1:5500/api/subject/${this.subject_name}?ResolvedStatus=False`,
         {
