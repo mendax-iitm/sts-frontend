@@ -84,18 +84,9 @@
                 <div class="d-flex justify-content-end">
                   <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
                     Solution</p>
-                  <i @click="
-                    MarkAnswer(
-                      ticket_details.ticket_id,
-                      response.response_id
-                    )
-                  " :class="[
-  'bi',
-  response.isAnswer == true
-    ? 'bi-check-circle-fill text-success'
-    : 'bi-check-circle',
-]" style="font-size: 1.2rem" data-toggle="tooltip" data-placement="top" title="Solution"></i>
-
+                  <i @click="MarkAnswer(ticket_details.ticket_id, response.response_id)"
+                    :class="['bi', response.isAnswer == true ? 'bi-check-circle-fill text-success' : 'bi-check-circle',]"
+                    style="font-size: 1.2rem" data-toggle="tooltip" data-placement="top" title="Solution"></i>
                 </div>
               </div>
             </div>
@@ -106,7 +97,7 @@
     <div class="row m-3">
 
       <!-- Response Form -->
-      <form @submit.prevent="AddResponse">
+      <form v-if="ticket_details.ticket_status == 'unresolved'" @submit.prevent="AddResponse">
         <div class="form-floating mb-3">
           <textarea type="textarea" v-model="response_text" class="form-control" id="floatingContent"
             placeholder="Please enter your Content" style="min-height: 8em" />
