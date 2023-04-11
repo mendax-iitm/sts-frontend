@@ -56,9 +56,35 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
-      <button class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
-      <button class="btn btn-primary m-3">Mark Duplicate</button>
+      <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
+      <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
+      <button class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
     </div>
+
+
+    <!-- Solution Card -->
+    
+    <div v-if="ticket_details.ticket_status == 'resolved'" class="card" style="min-height: 4em">
+        <div
+          class="card-header bg-success"
+          
+        >
+          <h5>Solution</h5>
+        </div>
+        <div class="row">
+         
+          <div class="col">
+            <div class="card-body">
+             
+              <p class="card-text">{{ true_response }}</p>
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Responses Card -->
     <hr class="border border-success border-2 opacity-100" />
     <h2>Responses</h2>
     <div class="row p-3" v-for="response in response_list" :key="response.id">
@@ -100,6 +126,8 @@
       </div>
     </div>
     <div class="row m-3">
+
+        <!-- Response Form -->
       <form @submit.prevent="AddResponse">
         <div class="form-floating mb-3">
           <textarea
@@ -134,7 +162,7 @@ export default {
             response_list: [],
             likes: 0,
             isLiked: false,
-            true_response_id: null,
+            true_response: "",
         };
     },
 
@@ -263,6 +291,64 @@ export default {
                 })
                 .catch((err) => console.log(err));
         },
+        UnMarkFAQ(id) {
+
+            fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                    action: "notfaq",
+                    user_id: parseInt(this.current_user_id),
+                }),
+            })
+                .then((response) => {
+
+                    return response.json();
+                }
+                )
+                .then((data) => {
+                    if (data.error_code) {
+                        alert(data.error_message)
+                    }
+                    else {
+                        this.ticket_details.isFAQ = false
+                    }
+
+                })
+                .catch((err) => console.log(err));
+        },
+        MarkDuplicate(id) {
+
+            fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+
+            })
+                .then((response) => {
+
+                    return response.json();
+                }
+                )
+                .then((data) => {
+                    if (data.error_code) {
+                        alert(data.error_message)
+                    }
+                    else {
+                        this.$router.push(`/subject/${this.ticket_details.subject_name}`)
+                    }
+
+
+                })
+                .catch((err) => console.log(err));
+        },
     },
     mounted: function () {
         this.username = localStorage.getItem("username");
@@ -286,10 +372,11 @@ export default {
                 this.response_list = data.response_list;
                 this.likes = this.ticket_details.likes.length;
                 this.isLiked = this.ticket_details.likes.includes(this.current_user_id);
-                const answer = this.response_list.filter(
+                const answer = this.response_list[this.response_list.findIndex(
                     (response) => response.isAnswer == true
-                );
-                this.true_response_id = answer.response_id;
+                )];
+                console.log(answer.response)
+                this.true_response = answer.response
             })
             .catch((err) => console.log(err));
     },
