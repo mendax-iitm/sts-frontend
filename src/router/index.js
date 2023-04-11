@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import RegisterStudent from "../components/RegisterStudent.vue";
+import SearchComp from "../components/SearchComponent.vue";
 import RegisterStaff from "../components/RegisterStaff.vue";
 import TestingAPI from "../components/Test.vue";
 import DashBoardView from "../views/DashBoardView.vue";
@@ -27,6 +28,7 @@ const routes = [
     name: "Subject Dashboard",
   },
   { path: "/ticket/:id", component: TicketView, name: "TicketPage" },
+  { path: "/search/:subject/:search", component: SearchComp, name: "SearchPage" },
 ];
 
 const router = createRouter({
