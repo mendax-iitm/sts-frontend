@@ -63,7 +63,7 @@ export default {
   data: function () {
     return {
       subject_name: this.$route.params.subject,
-      title: "Subject Dashboard",
+      title: this.$route.params.subject,
       ticket_list: [],
       filtered_list: [],
       search: "",
