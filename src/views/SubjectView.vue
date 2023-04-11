@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar :title="title" :username="username" :forAdmin="'true'"></NavBar>
+    <NavBar :title="title" :username="username"></NavBar>
     <div>
       <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
       <span class="btn-group btn-group-lg" style="margin-left: 22%">
@@ -15,17 +15,16 @@
           id="btnradio3" />
         <label class="btn btn-outline-primary" for="btnradio3">Unresolved</label>
       </span>
-      <span>
+      <form class="search" @submit.prevent="search_function">
         <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
-        <button type="button" class="btn btn-link" @click="search_function">
-          <i class="bi bi-search"></i>
-        </button>
-      </span>
+        <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
+      </form>
       <div class="container pt-2">
         <div class="row">
-          <h3 class="text-center" v-if="!filtered_list.length">
-            No tickets found under this section.
-          </h3>
+          <div class="text-center" v-if="!filtered_list.length">
+            <img src="../assets/notFound.jpg" alt="" sizes="" srcset="">
+            <h3>No tickets found under this section.</h3>
+          </div>
           <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
             <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
               <div style="font-size: 2.5em" class="position-absolute">
@@ -35,16 +34,13 @@
                 <div v-if="ticket.sec_name">
                   <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
                 </div>
-                <router-link :to="'/ticket/' + ticket.ticket_id">{{
-                  ticket.title
-                }}</router-link>
+                <router-link :to="'/ticket/' + ticket.ticket_id">{{ ticket.title }}</router-link>
               </div>
             </div>
           </div>
           <CreateTicket :subject_tag="subject_name" />
         </div>
       </div>
-      <div class="row justify-content-end"></div>
     </div>
   </div>
 </template>
@@ -74,7 +70,7 @@ export default {
   },
   methods: {
     search_function() {
-      alert(this.search);
+      return router.push(`/search/${this.subject_name}/${this.search}`)
     },
     tagFilter(value) {
       this.reload = false;
@@ -91,7 +87,7 @@ export default {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
           Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
+        }
       })
         .then((response) => {
           if (!response.ok) {
@@ -116,7 +112,7 @@ export default {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
             Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
+          }
         }
       )
         .then((response) => {
@@ -142,7 +138,7 @@ export default {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
             Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
+          }
         }
       )
         .then((response) => {
@@ -175,11 +171,6 @@ hr {
   border-width: 5px;
 }
 
-.card hr {
-  border-width: 5px;
-  border-color: #182825;
-}
-
 .card {
   background-color: #b8b4ff;
   color: #653239;
@@ -194,11 +185,16 @@ a {
   text-decoration: none;
 }
 
-.search {
+form.search {
+  display: inline-block;
   margin-left: 9%;
-  width: 30%;
-  height: 3rem;
+  width: auto;
+}
+
+input[type='text'].search {
   padding: 1rem;
+  width: 25rem;
+  height: 3rem;
   border-radius: 50px;
   margin-right: -50px;
 }

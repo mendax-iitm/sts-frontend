@@ -48,7 +48,7 @@ export default {
     };
   },
   methods: {},
-  mounted: function () {
+  beforeMount() {
     this.username = localStorage.getItem("username");
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
@@ -86,11 +86,13 @@ export default {
               }
               return response.json();
             })
-            .then((data) => (this.subjects[subject] = data));
+            .then(data => {
+              this.subjects[subject] = data
+              this.ready = true;
+            });
         }
       })
       .catch((err) => console.log(err));
-    this.ready = true;
   },
 };
 </script>
@@ -115,9 +117,9 @@ body {
   overflow-x: hidden;
 }
 
-.card-title {
-  /* color: red; */
-}
+/* .card-title {
+  color: red;
+} */
 
 a {
   /* color: green; */
