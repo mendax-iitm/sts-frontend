@@ -1,5 +1,5 @@
 <template>
-  <NavBar :title="title" :username="username"></NavBar>
+  <NavBar :title="ticket_details.subject_name" :username="username"></NavBar>
   <div class="container-fluid" style="width: 80%; margin: auto">
     <div class="row">
       <div class="card" style="min-height: 4em">
@@ -10,7 +10,7 @@
               'bg-danger': ticket_details.ticket_status == 'unresolved',
           }"
         >
-          Featured
+          <h5>Question</h5>
         </div>
         <div class="row">
           <div
@@ -18,20 +18,20 @@
           >
             <i
               @click="like(ticket_details.ticket_id)"
-              class="bi bi-hand-thumbs-up"
+              :class="['bi', 'text-success', isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up']"
               style="font-size: 2rem"
               data-toggle="tooltip"
               data-placement="top"
               title="Like"
             ></i>
-            <p>0</p>
+            <p>{{ likes }}</p>
           </div>
           <div class="col">
             <div class="card-body">
               <h5 class="card-title">{{ ticket_details.title }}</h5>
               <p class="card-text">{{ ticket_details.description }}</p>
 
-              <div class="card-footer text-body-secondary">2 days ago</div>
+              <div class="card-footer text-body-secondary">Tags: <div class="badge bg-primary">{{ ticket_details.sec_name }}</div><div class="badge bg-primary">{{ ticket_details.ticket_status }}</div></div>
             </div>
           </div>
         </div>
@@ -41,28 +41,31 @@
       <button class="btn btn-primary m-3">Mark FAQ</button>
       <button class="btn btn-primary m-3">Mark Duplicate</button>
     </div>
+    <hr class="border border-success border-2 opacity-100" />
+    <h2>Responses</h2>
     <div class="row p-3" v-for="response in response_list" :key="response.id">
       <div class="card" style="min-height: 4em">
-        <div class="card-header">Featured</div>
+        
         <div class="row">
             
-          <div
-            class="col-1 d-flex flex-column align-items-center justify-content-center"
-          >
-          <div v-if="ticket_details.user_id == current_user_id ? true : false">
-            <i
-              @click="like(ticket_details.ticket_id, response.response_id)"
-              class="bi bi-hand-thumbs-up"
-              style="font-size: 2rem"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Like"
-            ></i>
-          </div>
-        </div>
+        
+          
+            
+         
+        
           <div class="col">
             <div class="card-body">
               <p class="card-title">{{ response.response }}</p>
+              <div v-if="ticket_details.user_id == current_user_id ? true : false">
+              <div class="d-flex justify-content-end"><p class="card-text ">Solution <i
+              @click="MarkAnswer(ticket_details.ticket_id, response.response_id)"
+              :class="['bi', response.isAnswer == true ? 'bi-check-circle-fill text-success' : 'bi-check-circle']"
+              style="font-size: 1.2rem"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Like"
+            ></i></p></div>
+        </div>
             </div>
           </div>
         </div>
@@ -96,11 +99,14 @@ export default {
     components: { NavBar },
     data: function () {
         return {
-            current_user_id: localStorage.getItem("user_id"),
+            current_user_id: parseInt(localStorage.getItem("user_id")),
             username: "",
             response_text: "",
             ticket_details: {},
             response_list: [],
+            likes: 0,
+            isLiked: false,
+            true_response_id: null,
         };
     },
 
@@ -137,6 +143,73 @@ export default {
                     this.response_text = null;
                 });
         },
+        like(id) {
+            this.isLiked ? this.likes -= 1 : this.likes += 1, this.isLiked = !this.isLiked;
+            fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                    action: "like",
+                    user_id: parseInt(this.current_user_id),
+
+                }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        alert("Response not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+
+                })
+                .catch((err) => console.log(err));
+        },
+        MarkAnswer(ticket_id, res_id) {
+            fetch(`http://127.0.0.1:5500/api/response/${ticket_id}/${res_id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                    isAnswer: true,
+                    ticket_status: "resolved",
+
+                }),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        alert("Response not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data)
+
+                    this.ticket_details.ticket_status = "resolved"
+
+                    for (let response of this.response_list) {
+                        if (response.response_id == res_id) {
+                            response.isAnswer = true
+                        }
+                        else {
+                            response.isAnswer = false
+                        }
+                    }
+
+                    console.log(this.response_list)
+
+
+                })
+                .catch((err) => console.log(err));
+        }
     },
     mounted: function () {
         this.username = localStorage.getItem("username");
@@ -157,8 +230,13 @@ export default {
             .then((data) => {
                 console.log(data);
                 this.ticket_details = data;
-                console.log(this.ticket_details.user_id)
                 this.response_list = data.response_list;
+                this.likes = this.ticket_details.likes.length;
+                this.isLiked = this.ticket_details.likes.includes(this.current_user_id)
+                const answer = this.response_list.filter(response => response.isAnswer == true)
+                this.true_response_id = answer.response_id
+
+
             })
             .catch((err) => console.log(err));
     },
