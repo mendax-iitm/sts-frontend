@@ -1,11 +1,14 @@
 <template>
     <div class="">
         <div class="sidebar">
-            <p class="m-2">Filter tickets by</p>
+            <p class="mt-2 ms-3">Filter tickets by</p>
             <button style="margin-left: 75%; font-size: small;position: absolute;" @click="reset">Reset</button>
-            <div class="form-check m-4" v-for="(tag, index) in sec_tag_list" :key="index">
-                <input class="form-check-input" type="radio" :value=tag :id=index v-model="selectedOption" @change="notify">
-                <label class="form-check-label" :for=index>{{ tag }} </label>
+            <div class="form-check ms-3 mt-5 me-3">
+                <div v-for="(tag, index) in sec_tag_list" :key="index">
+                    <input class="form-check-input" type="radio" :value=tag :id=index v-model="selectedOption"
+                        @change="notify">
+                    <label class="form-check-label" :for=index>{{ tag }} </label>
+                </div>
             </div>
         </div>
     </div>
@@ -53,10 +56,15 @@ export default {
 <style>
 .sidebar {
     font-size: x-large;
-    min-width: 15rem;
-    min-height: 70%;
+    width: 15rem;
+    height: 70%;
     background-color: #f2f2f2;
     left: 3%;
     position: absolute;
+}
+
+div.form-check {
+    height: 80%;
+    overflow-y: auto;
 }
 </style>
