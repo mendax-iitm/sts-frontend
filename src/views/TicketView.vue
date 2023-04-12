@@ -1,163 +1,163 @@
 <template>
-  <NavBar :title="ticket_details.subject_name" :username="username"></NavBar>
-  <div class="container-fluid" style="width: 80%; margin: auto">
-    <div class="row">
-
-        <!-- Question Card -->
-      <div class="card" style="min-height: 4em">
-        <div
-          class="card-header"
-          :class="{
-              'bg-success': ticket_details.ticket_status == 'resolved',
-              'bg-danger': ticket_details.ticket_status == 'unresolved',
-          }"
-        >
-          <h5>Question</h5>
-        </div>
-        <div class="row">
+    <NavBar :title="ticket_details.subject_name" :username="username"></NavBar>
+    <div class="container-fluid" style="width: 80%; margin: auto">
+      <div class="row">
+  
+          <!-- Question Card -->
+        <div class="card" style="min-height: 4em">
           <div
-            class="col-1 d-flex flex-column align-items-center justify-content-center"
+            class="card-header"
+            :class="{
+                'bg-success': ticket_details.ticket_status == 'resolved',
+                'bg-danger': ticket_details.ticket_status == 'unresolved',
+            }"
           >
-            <i
-              @click="like(ticket_details.ticket_id)"
-              :class="[
-                  'bi',
-
-                  isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
-              ]"
-              style="font-size: 2rem"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Like"
-            ></i>
-            <p>{{ likes }}</p>
+            <h5>Question</h5>
           </div>
-          <div class="col">
-            <div class="card-body">
-              <h5 class="card-title">{{ ticket_details.title }}</h5>
-              <p class="card-text">{{ ticket_details.description }}</p>
+          <div class="row">
+            <div
+              class="col-1 d-flex flex-column align-items-center justify-content-center"
+            >
+              <i
+                @click="like(ticket_details.ticket_id)"
+                :class="[
+                    'bi',
 
-              <div class="card-footer text-body-secondary">
-                
-                Tags:
-                <div class="badge bg-primary">
-                  {{ ticket_details.sec_name }}
-                </div>
-                <div class="badge bg-primary">
-                  {{ ticket_details.ticket_status }}
-                </div>
-                <div v-if="ticket_details.isFAQ" class="badge bg-primary">
+                    isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
+                ]"
+                style="font-size: 2rem"
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Like"
+              ></i>
+              <p>{{ likes }}</p>
+            </div>
+            <div class="col">
+              <div class="card-body">
+                <h5 class="card-title">{{ ticket_details.title }}</h5>
+                <p class="card-text">{{ ticket_details.description }}</p>
+  
+                <div class="card-footer text-body-secondary">
                   
-                  FAQ
-                
-                </div>
-                <div v-if="duplicate" class="badge bg-danger">
+                  Tags:
+                  <div class="badge bg-primary">
+                    {{ ticket_details.sec_name }}
+                  </div>
+                  <div class="badge bg-primary">
+                    {{ ticket_details.ticket_status }}
+                  </div>
+                  <div v-if="ticket_details.isFAQ" class="badge bg-primary">
+                    
+                    FAQ
                   
-                  Duplicate
-                
+                  </div>
+                  <div v-if="duplicate" class="badge bg-danger">
+                    
+                    Duplicate
+                  
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-end">
-        <div v-if="!this.duplicate">
-            <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
-      <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
-        </div>
+      <div class="d-flex justify-content-end">
+          <div v-if="!this.duplicate">
+              <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
+        <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
+          </div>
+        
+        <button v-if="!duplicate" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
+      </div>
+  
+  
+      <!-- Solution Card -->
       
-      <button v-if="!duplicate" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
-    </div>
-
-
-    <!-- Solution Card -->
-    
-    <div v-if="ticket_details.ticket_status == 'resolved'" class="card m-3" style="min-height: 4em">
-        <div
-          class="card-header bg-success"
-          
-        >
-          <h5>Solution</h5>
-        </div>
-        <div class="row">
-         
-          <div class="col">
-            <div class="card-body">
-             
-              <p class="card-text">{{ true_response }}</p>
-
-              
+      <div v-if="ticket_details.ticket_status == 'resolved'" class="card m-3" style="min-height: 4em">
+          <div
+            class="card-header bg-success"
+            
+          >
+            <h5>Solution</h5>
+          </div>
+          <div class="row">
+           
+            <div class="col">
+              <div class="card-body">
+               
+                <p class="card-text">{{ true_response }}</p>
+  
+                
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Responses Card -->
-    <hr class="border border-success border-2 opacity-100" />
-    <h2>Responses</h2>
-    <div class="row p-3" v-for="response in response_list" :key="response.id">
-      <div class="card" :class="{ 'border-success': response.isAnswer }" style="min-height: 4em">
-        <div class="row">
-          <div class="col">
-            <div class="card-body">
-              <p class="card-title">{{ response.response }}</p>
-              <div
-                v-if="ticket_details.user_id == current_user_id ? true : false"
-              >
-                <div class="d-flex justify-content-end">
-                  <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
-                    Solution</p>
-                    <i
-                      @click="
-                          MarkAnswer(
-                              ticket_details.ticket_id,
-                              response.response_id
-                          )
-                      "
-                      :class="[
-                          'bi',
-                          response.isAnswer == true
-                              ? 'bi-check-circle-fill text-success'
-                              : 'bi-check-circle',
-                      ]"
-                      style="font-size: 1.2rem"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Solution"
-                    ></i>
-                  
+  
+        <!-- Responses Card -->
+      <hr class="border border-success border-2 opacity-100" />
+      <h2>Responses</h2>
+      <div class="row p-3" v-for="response in response_list" :key="response.id">
+        <div class="card" :class="{ 'border-success': response.isAnswer }" style="min-height: 4em">
+          <div class="row">
+            <div class="col">
+              <div class="card-body">
+                <p class="card-title">{{ response.response }}</p>
+                <div
+                  v-if="ticket_details.user_id == current_user_id ? true : false"
+                >
+                  <div class="d-flex justify-content-end">
+                    <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
+                      Solution</p>
+                      <i
+                        @click="
+                            MarkAnswer(
+                                ticket_details.ticket_id,
+                                response.response_id
+                            )
+                        "
+                        :class="[
+                            'bi',
+                            response.isAnswer == true
+                                ? 'bi-check-circle-fill text-success'
+                                : 'bi-check-circle',
+                        ]"
+                        style="font-size: 1.2rem"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Solution"
+                      ></i>
+                    
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="row m-3">
+  
+          <!-- Response Form -->
+        <form v-if="ticket_details.ticket_status == 'unresolved'" @submit.prevent="AddResponse">
+          <div class="form-floating mb-3">
+            <textarea
+              type="textarea"
+              v-model="response_text"
+              class="form-control"
+              id="floatingContent"
+              placeholder="Please enter your Content"
+              style="min-height: 8em"
+            />
+            <label for="floatingContent">Type your Response here</label>
+          </div>
+  
+          <div class="d-flex justify-content-center">
+            <button class="btn btn-primary" type="submit">Add Response</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="row m-3">
-
-        <!-- Response Form -->
-      <form v-if="ticket_details.ticket_status == 'unresolved'" @submit.prevent="AddResponse">
-        <div class="form-floating mb-3">
-          <textarea
-            type="textarea"
-            v-model="response_text"
-            class="form-control"
-            id="floatingContent"
-            placeholder="Please enter your Content"
-            style="min-height: 8em"
-          />
-          <label for="floatingContent">Type your Response here</label>
-        </div>
-
-        <div class="d-flex justify-content-center">
-          <button class="btn btn-primary" type="submit">Add Response</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
+  </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
 export default {
@@ -440,3 +440,4 @@ export default {
     },
 };
 </script>
+  
