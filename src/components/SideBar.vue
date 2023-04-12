@@ -3,7 +3,7 @@
         <div class="sidebar">
             <p class="mt-2 ms-3">Filter tickets by</p>
             <button style="margin-left: 75%; font-size: small;position: absolute;" @click="reset">Reset</button>
-            <div class="form-check ms-3 mt-5 me-3">
+            <div class="form-check ms-3 pt-3 me-3">
                 <div v-for="(tag, index) in sec_tag_list" :key="index">
                     <input class="form-check-input" type="radio" :value=tag :id=index v-model="selectedOption"
                         @change="notify">
@@ -57,7 +57,7 @@ export default {
 .sidebar {
     font-size: x-large;
     width: 15rem;
-    height: 75%;
+    min-height: 75%;
     background-color: #f2f2f2;
     left: 3%;
     position: absolute;
