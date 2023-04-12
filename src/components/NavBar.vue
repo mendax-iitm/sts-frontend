@@ -32,7 +32,7 @@ export default {
 </script>
 <style scoped>
 .btn-block {
-  background-color: #653239;
+  background-color: #e30d2a;
 }
 
 .txt-color {

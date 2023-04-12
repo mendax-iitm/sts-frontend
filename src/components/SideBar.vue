@@ -57,7 +57,7 @@ export default {
 .sidebar {
     font-size: x-large;
     width: 15rem;
-    height: 70%;
+    height: 80%;
     background-color: #f2f2f2;
     left: 3%;
     position: absolute;

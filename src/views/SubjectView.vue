@@ -24,7 +24,7 @@
           <h3>No tickets found under this section.</h3>
         </div>
         <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
-          <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
+          <div class="card position-relative" style="width: 85%; margin-left: 13rem; min-height: 4em">
             <div style="font-size: 2.5em" class="position-absolute">
               {{ ticket.likes }}
             </div>
@@ -184,7 +184,7 @@ a {
 
 form.search {
   display: inline-block;
-  margin-left: 9%;
+  margin-left: 24%;
   width: auto;
 }
 
