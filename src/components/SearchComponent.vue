@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavBar :title="title" :username="username"></NavBar>
+        <NavBar :title="title"></NavBar>
         <div>
             <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
             <form class="search" @submit.prevent="search_function">
@@ -51,7 +51,6 @@ export default {
             ticket_list: [],
             filtered_list: [],
             search: this.$route.params.search,
-            username: "",
             reload: false,
         }
     },
@@ -86,7 +85,6 @@ export default {
             alert("Login first");
             return router.push("/");
         }
-        this.username = localStorage.getItem("username");
         this.search_function();
     },
 }
