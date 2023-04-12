@@ -1,6 +1,6 @@
 <template>
   <NavBar :title="ticket_details.subject_name"></NavBar>
-  <div class="container-fluid" style="width: 80%; margin: auto">
+  <div class="container-fluid mt-1" style="width: 80%; margin: auto">
 
     <!-- Question Card -->
     <div class="card" style="min-height: 4em">

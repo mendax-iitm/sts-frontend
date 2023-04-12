@@ -12,7 +12,7 @@
           <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
         </router-link>
       </span>
-      <div class="position-absolute top-0 end-0 mt-2">
+      <div class="position-absolute top-0 end-0 mt-3">
         <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-danger">
           Logout <i class="bi bi-box-arrow-right"></i>
         </button>
