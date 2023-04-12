@@ -1,19 +1,18 @@
 <template>
   <div>
-    <h5 class="text-center m-3 ">Welcome {{ username }}</h5>
+    <!-- <h5 class="text-center m-3 ">Welcome {{ username }}</h5> -->
     <div class="d-flex justify-content-between m-3">
-      
-        <router-link to="/dash">
-          <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
-        </router-link>
-      
+
+      <router-link to="/dash">
+        <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
+      </router-link>
+
       <h3 class="ms-2">{{ title }}</h3>
-      
-        <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-block">
-          Logout <i class="bi bi-box-arrow-right"></i>
-        </button>
-      
-      
+
+      <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-block">
+        Logout <i class="bi bi-box-arrow-right"></i>
+      </button>
+
     </div>
     <hr class="border border-primary border-2 opacity-100 m-3" />
   </div>
