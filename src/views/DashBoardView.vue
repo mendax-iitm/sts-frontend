@@ -48,7 +48,13 @@ export default {
     };
   },
   methods: {},
+  beforeCreate() {
+    if (localStorage.getItem("role") == 'staff') {
+      router.push(`/subject/${localStorage.getItem('subject_name')}`)
+    }
+  },
   beforeMount() {
+
     this.username = localStorage.getItem("username");
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
