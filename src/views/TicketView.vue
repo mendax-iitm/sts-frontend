@@ -2,6 +2,8 @@
   <NavBar :title="ticket_details.subject_name" :username="username"></NavBar>
   <div class="container-fluid" style="width: 80%; margin: auto">
     <div class="row">
+
+        <!-- Question Card -->
       <div class="card" style="min-height: 4em">
         <div
           class="card-header"
@@ -49,6 +51,11 @@
                   FAQ
                 
                 </div>
+                <div v-if="duplicate" class="badge bg-danger">
+                  
+                  Duplicate
+                
+                </div>
               </div>
             </div>
           </div>
@@ -56,15 +63,18 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
-      <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
+        <div v-if="!this.duplicate">
+            <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
       <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
-      <button class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
+        </div>
+      
+      <button v-if="!duplicate" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
     </div>
 
 
     <!-- Solution Card -->
     
-    <div v-if="ticket_details.ticket_status == 'resolved'" class="card" style="min-height: 4em">
+    <div v-if="ticket_details.ticket_status == 'resolved'" class="card m-3" style="min-height: 4em">
         <div
           class="card-header bg-success"
           
@@ -163,6 +173,7 @@ export default {
             likes: 0,
             isLiked: false,
             true_response: "",
+            duplicate: false
         };
     },
 
@@ -322,14 +333,18 @@ export default {
                 .catch((err) => console.log(err));
         },
         MarkDuplicate(id) {
-
-            fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
-                method: "DELETE",
+            let title = prompt("Please input the url of original ticket");
+            fetch(`http://127.0.0.1:5500/api/response/${id}`, {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     Authorization: "Bearer " + localStorage.getItem("access_token"),
                 },
+                body: JSON.stringify({
+                    user_id: localStorage.getItem("user_id"),
+                    response: "Duplicate ticket, Original thread link: " + title,
+                }),
 
             })
                 .then((response) => {
@@ -342,7 +357,46 @@ export default {
                         alert(data.error_message)
                     }
                     else {
-                        this.$router.push(`/subject/${this.ticket_details.subject_name}`)
+                        this.duplicate = true
+                        this.response_list = data.response_list
+                        const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
+                        const res_id = parseInt(this.response_list[index].response_id)
+                        fetch(`http://127.0.0.1:5500/api/response/${this.ticket_details.ticket_id}/${res_id}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Access-Control-Allow-Origin": "*",
+                                Authorization: "Bearer " + localStorage.getItem("access_token"),
+                            },
+                            body: JSON.stringify({
+                                isAnswer: true,
+                                ticket_status: "resolved",
+                            }),
+                        })
+                            .then((response) => {
+                                if (!response.ok) {
+                                    alert("Response not ok");
+                                }
+                                return response.json();
+                            })
+                            .then((data) => {
+                                console.log(data);
+
+                                // this.ticket_details.ticket_status = "resolved";
+
+                                // for (let response of this.response_list) {
+                                //     if (response.response_id == res_id) {
+                                //         response.isAnswer = true;
+                                //     } else {
+                                //         response.isAnswer = false;
+                                //     }
+                                // }
+                                window.location.reload()
+
+
+                            })
+                            .catch((err) => console.log(err));
+
                     }
 
 
@@ -375,7 +429,11 @@ export default {
                 const answer = this.response_list[this.response_list.findIndex(
                     (response) => response.isAnswer == true
                 )];
-                console.log(answer.response)
+                const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
+                if (index != -1) {
+                    this.duplicate = true
+                }
+
                 this.true_response = answer.response
             })
             .catch((err) => console.log(err));
