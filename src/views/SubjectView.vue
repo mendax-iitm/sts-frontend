@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <NavBar :title="title" :username="username"></NavBar>
+    <NavBar :title="title"></NavBar>
     <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
     <span class="btn-group btn-group-lg" style="margin-left: 20rem">
       <input type="radio" class="btn-check" value="faq" v-model="selectedOption" @change="FAQ" id="btnradio1" />
@@ -61,7 +61,6 @@ export default {
       filtered_list: [],
       search: "",
       selectedOption: "faq",
-      username: "",
       reload: false,
     };
   },
@@ -157,7 +156,6 @@ export default {
       alert("Login first");
       return router.push("/");
     }
-    this.username = localStorage.getItem("username");
     this.FAQ();
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar :title="title" :username="username"></NavBar>
+    <NavBar :title="title"></NavBar>
     <div v-if="!ready">
       <h1>Please wait Loading</h1>
     </div>
@@ -40,7 +40,6 @@ export default {
   },
   data: function () {
     return {
-      username: "",
       title: "Student Dashboard",
       subjects: {},
       ready: false,
@@ -55,7 +54,6 @@ export default {
   },
   beforeMount() {
 
-    this.username = localStorage.getItem("username");
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
       headers: {

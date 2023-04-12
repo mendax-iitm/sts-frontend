@@ -1,14 +1,13 @@
 <template>
   <div>
-    <!-- <h5 class="text-center m-3 ">Welcome {{ username }}</h5> -->
     <div class="d-flex justify-content-between m-3">
       <div v-if="role == 'student'"><router-link to="/dash">
-        <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
-      </router-link></div>
+          <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
+        </router-link></div>
       <div v-else><router-link :to="'/subject/' + subject_name">
-        <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
-      </router-link></div>
-      
+          <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
+        </router-link></div>
+
 
       <h3 class="ms-2">{{ title }}</h3>
 
@@ -30,7 +29,7 @@ export default {
       role: localStorage.getItem("role")
     }
   },
-  props: ["username", "title"],
+  props: ["title"],
   methods: {
     logout() {
       localStorage.clear();
