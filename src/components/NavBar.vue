@@ -2,10 +2,13 @@
   <div>
     <!-- <h5 class="text-center m-3 ">Welcome {{ username }}</h5> -->
     <div class="d-flex justify-content-between m-3">
-
-      <router-link to="/dash">
+      <div v-if="role == 'student'"><router-link to="/dash">
         <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
-      </router-link>
+      </router-link></div>
+      <div v-else><router-link :to="'/subject/' + subject_name">
+        <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
+      </router-link></div>
+      
 
       <h3 class="ms-2">{{ title }}</h3>
 
@@ -21,6 +24,12 @@
 import router from "@/router";
 export default {
   name: "NavBar",
+  data() {
+    return {
+      subject_name: localStorage.getItem("subject_name"),
+      role: localStorage.getItem("role")
+    }
+  },
   props: ["username", "title"],
   methods: {
     logout() {
