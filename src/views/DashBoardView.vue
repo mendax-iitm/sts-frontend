@@ -53,8 +53,9 @@ export default {
       next(`/subject/${subject}`)
     }
     else {
-      next({ name: 'dashboard' })
+      next()
     }
+
   },
 
   beforeMount() {
