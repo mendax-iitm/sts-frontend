@@ -133,7 +133,12 @@ export default {
               localStorage.setItem("username", this.username);
               localStorage.setItem("role", data.role);
               localStorage.setItem("user_id", data.user_id);
-              router.push("/dash");
+              if (data.role == 'staff') {
+                localStorage.setItem("subject_name", data.subject_name)
+                router.push(`/subject/${data.subject_name}`)
+              }
+              else { router.push("/dash"); }
+
             } else {
               this.errStatus = true;
               this.errormsg = data.error_message;

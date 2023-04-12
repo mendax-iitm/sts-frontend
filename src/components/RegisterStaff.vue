@@ -135,7 +135,8 @@ export default {
               localStorage.setItem("username", this.username);
               localStorage.setItem("role", "staff");
               localStorage.setItem("user_id", data.user_id);
-              router.push("/about");
+              alert("Please wait for your approval")
+              router.push("/");
             } else {
               this.errStatus = true;
               this.errormsg = data.error_message;
