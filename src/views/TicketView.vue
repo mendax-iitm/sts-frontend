@@ -101,6 +101,7 @@
       <div class="card" :class="{ 'border-success': response.isAnswer }" style="min-height: 4em">
         <div class="row">
           <div class="col">
+            
             <div class="card-body">
               <p class="card-title">{{ response.response }}</p>
               <div
@@ -131,6 +132,9 @@
                 </div>
               </div>
             </div>
+            <div class="card-footer">
+              <div class="d-flex justify-content-end"><span class="text-secondary">Posted by: </span> {{ response.username }}</div></div>
+              
           </div>
         </div>
       </div>
