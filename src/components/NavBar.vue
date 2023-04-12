@@ -3,7 +3,7 @@
     <span class="text-center">
       <p class="h1 pt-2">{{ title }}</p>
     </span>
-    <div class="position-relative ms-4 me-4">
+    <div class="position-relative ms-4 me-4 pb-3">
       <span>
         <router-link to="/dash" v-if="role == 'student'">
           <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
@@ -17,7 +17,7 @@
           Logout <i class="bi bi-box-arrow-right"></i>
         </button>
       </div>
-      <hr class="border border-primary border-2 opacity-100" />
+      <!-- <hr class="border border-primary border-2 opacity-100" /> -->
     </div>
   </header>
 </template>

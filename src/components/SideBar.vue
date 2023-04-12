@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="mt-3">
         <div class="sidebar">
             <p class="mt-2 ms-3">Filter tickets by</p>
             <button style="margin-left: 75%; font-size: small;position: absolute;" @click="reset">Reset</button>
