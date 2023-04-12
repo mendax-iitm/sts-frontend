@@ -5,31 +5,19 @@
 
         <!-- Question Card -->
       <div class="card" style="min-height: 4em">
-        <div
-          class="card-header"
-          :class="{
-              'bg-success': ticket_details.ticket_status == 'resolved',
-              'bg-danger': ticket_details.ticket_status == 'unresolved',
-          }"
-        >
+        <div class="card-header" :class="{
+            'bg-success': ticket_details.ticket_status == 'resolved',
+            'bg-danger': ticket_details.ticket_status == 'unresolved',
+        }">
           <h5>Question</h5>
         </div>
         <div class="row">
-          <div
-            class="col-1 d-flex flex-column align-items-center justify-content-center"
-          >
-            <i
-              @click="like(ticket_details.ticket_id)"
-              :class="[
-                  'bi',
+          <div class="col-1 d-flex flex-column align-items-center justify-content-center">
+            <i @click="like(ticket_details.ticket_id)" :class="[
+                'bi',
 
-                  isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
-              ]"
-              style="font-size: 2rem"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Like"
-            ></i>
+                isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
+            ]" style="font-size: 2rem" data-toggle="tooltip" data-placement="top" title="Like"></i>
             <p>{{ likes }}</p>
           </div>
           <div class="col">
@@ -38,7 +26,7 @@
               <p class="card-text">{{ ticket_details.description }}</p>
 
               <div class="card-footer text-body-secondary">
-                
+
                 Tags:
                 <div class="badge bg-primary">
                   {{ ticket_details.sec_name }}
@@ -47,9 +35,9 @@
                   {{ ticket_details.ticket_status }}
                 </div>
                 <div v-if="ticket_details.isFAQ" class="badge bg-primary">
-                  
+
                   FAQ
-                
+
                 </div>
                 <div v-if="duplicate" class="badge bg-danger">
                   
@@ -63,18 +51,15 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
-        <div v-if="!this.duplicate">
-            <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
+      <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
       <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
-        </div>
-      
-      <button v-if="!duplicate" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
+      <button class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
     </div>
 
 
     <!-- Solution Card -->
     
-    <div v-if="ticket_details.ticket_status == 'resolved'" class="card m-3" style="min-height: 4em">
+    <div v-if="ticket_details.ticket_status == 'resolved'" class="card" style="min-height: 4em">
         <div
           class="card-header bg-success"
           
@@ -88,13 +73,13 @@
              
               <p class="card-text">{{ true_response }}</p>
 
-              
-            </div>
+
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Responses Card -->
+    <!-- Responses Card -->
     <hr class="border border-success border-2 opacity-100" />
     <h2>Responses</h2>
     <div class="row p-3" v-for="response in response_list" :key="response.id">
@@ -103,31 +88,13 @@
           <div class="col">
             <div class="card-body">
               <p class="card-title">{{ response.response }}</p>
-              <div
-                v-if="ticket_details.user_id == current_user_id ? true : false"
-              >
+              <div v-if="ticket_details.user_id == current_user_id ? true : false">
                 <div class="d-flex justify-content-end">
                   <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
                     Solution</p>
-                    <i
-                      @click="
-                          MarkAnswer(
-                              ticket_details.ticket_id,
-                              response.response_id
-                          )
-                      "
-                      :class="[
-                          'bi',
-                          response.isAnswer == true
-                              ? 'bi-check-circle-fill text-success'
-                              : 'bi-check-circle',
-                      ]"
-                      style="font-size: 1.2rem"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Solution"
-                    ></i>
-                  
+                  <i @click="MarkAnswer(ticket_details.ticket_id, response.response_id)"
+                    :class="['bi', response.isAnswer == true ? 'bi-check-circle-fill text-success' : 'bi-check-circle',]"
+                    style="font-size: 1.2rem" data-toggle="tooltip" data-placement="top" title="Solution"></i>
                 </div>
               </div>
             </div>
@@ -137,17 +104,11 @@
     </div>
     <div class="row m-3">
 
-        <!-- Response Form -->
+      <!-- Response Form -->
       <form v-if="ticket_details.ticket_status == 'unresolved'" @submit.prevent="AddResponse">
         <div class="form-floating mb-3">
-          <textarea
-            type="textarea"
-            v-model="response_text"
-            class="form-control"
-            id="floatingContent"
-            placeholder="Please enter your Content"
-            style="min-height: 8em"
-          />
+          <textarea type="textarea" v-model="response_text" class="form-control" id="floatingContent"
+            placeholder="Please enter your Content" style="min-height: 8em" />
           <label for="floatingContent">Type your Response here</label>
         </div>
 
@@ -173,7 +134,6 @@ export default {
             likes: 0,
             isLiked: false,
             true_response: "",
-            duplicate: false
         };
     },
 
@@ -333,18 +293,14 @@ export default {
                 .catch((err) => console.log(err));
         },
         MarkDuplicate(id) {
-            let title = prompt("Please input the url of original ticket");
-            fetch(`http://127.0.0.1:5500/api/response/${id}`, {
-                method: "POST",
+
+            fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     Authorization: "Bearer " + localStorage.getItem("access_token"),
                 },
-                body: JSON.stringify({
-                    user_id: localStorage.getItem("user_id"),
-                    response: "Duplicate ticket, Original thread link: " + title,
-                }),
 
             })
                 .then((response) => {
@@ -357,46 +313,7 @@ export default {
                         alert(data.error_message)
                     }
                     else {
-                        this.duplicate = true
-                        this.response_list = data.response_list
-                        const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
-                        const res_id = parseInt(this.response_list[index].response_id)
-                        fetch(`http://127.0.0.1:5500/api/response/${this.ticket_details.ticket_id}/${res_id}`, {
-                            method: "PUT",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Access-Control-Allow-Origin": "*",
-                                Authorization: "Bearer " + localStorage.getItem("access_token"),
-                            },
-                            body: JSON.stringify({
-                                isAnswer: true,
-                                ticket_status: "resolved",
-                            }),
-                        })
-                            .then((response) => {
-                                if (!response.ok) {
-                                    alert("Response not ok");
-                                }
-                                return response.json();
-                            })
-                            .then((data) => {
-                                console.log(data);
-
-                                // this.ticket_details.ticket_status = "resolved";
-
-                                // for (let response of this.response_list) {
-                                //     if (response.response_id == res_id) {
-                                //         response.isAnswer = true;
-                                //     } else {
-                                //         response.isAnswer = false;
-                                //     }
-                                // }
-                                window.location.reload()
-
-
-                            })
-                            .catch((err) => console.log(err));
-
+                        this.$router.push(`/subject/${this.ticket_details.subject_name}`)
                     }
 
 
@@ -429,11 +346,7 @@ export default {
                 const answer = this.response_list[this.response_list.findIndex(
                     (response) => response.isAnswer == true
                 )];
-                const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
-                if (index != -1) {
-                    this.duplicate = true
-                }
-
+                console.log(answer.response)
                 this.true_response = answer.response
             })
             .catch((err) => console.log(err));
