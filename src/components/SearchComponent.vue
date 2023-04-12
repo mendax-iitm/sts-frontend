@@ -57,6 +57,7 @@ export default {
     },
     methods: {
         search_function() {
+            this.reload = true;
             fetch(`http://127.0.0.1:5500/api/subject/${this.subject_name}?search=${this.search}`, {
                 method: "GET",
                 headers: {
