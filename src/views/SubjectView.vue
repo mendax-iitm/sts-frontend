@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div>
     <NavBar :title="title"></NavBar>
     <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
     <span class="btn-group btn-group-lg" style="margin-left: 20rem">
@@ -169,9 +169,6 @@ hr {
   color: #653239;
 }
 
-body {
-  overflow-x: hidden;
-}
 
 a {
   color: #653239;
