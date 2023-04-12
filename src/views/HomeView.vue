@@ -134,10 +134,10 @@ export default {
               localStorage.setItem("role", data.role);
               localStorage.setItem("user_id", data.user_id);
               if (data.role == 'staff') {
-                localStorage.setItem("subject_name", data.subject_name)
-                router.push(`/subject/${data.subject_name}`)
+                localStorage.setItem("subject_name", data.subject)
+                return router.push(`/subject/${data.subject}`)
               }
-              else { router.push("/dash"); }
+              else { return router.push("/dash"); }
 
             } else {
               this.errStatus = true;

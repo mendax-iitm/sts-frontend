@@ -22,11 +22,7 @@ const routes = [
   { path: "/enroll", name: "enroll", component: RegisterStaff },
   { path: "/test", name: "test", component: TestingAPI },
   { path: "/dash", name: "dashboard", component: DashBoardView },
-  {
-    path: "/subject/:subject",
-    component: SubjectView,
-    name: "Subject Dashboard",
-  },
+  { path: "/subject/:subject", component: SubjectView, name: "Subject Dashboard" },
   { path: "/ticket/:id", component: TicketView, name: "TicketPage" },
   { path: "/search/:subject/:search", component: SearchComp, name: "SearchPage" },
 ];

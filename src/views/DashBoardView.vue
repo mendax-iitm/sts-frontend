@@ -57,7 +57,6 @@ export default {
   },
 
   beforeMount() {
-
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
       headers: {
