@@ -48,8 +48,9 @@ export default {
   },
   methods: {},
   beforeRouteEnter(to, from, next) {
+    const subject = localStorage.getItem("subject_name")
     if (localStorage.getItem("role") == 'staff') {
-      next({ name: 'Subject Dashboard', params: { subject_name: localStorage.getItem("subject_name") } })
+      next(`/subject/${subject}`)
     }
     else {
       next({ name: 'dashboard' })
@@ -57,6 +58,7 @@ export default {
   },
 
   beforeMount() {
+
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
       headers: {

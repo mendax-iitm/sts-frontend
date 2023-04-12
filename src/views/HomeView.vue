@@ -134,8 +134,8 @@ export default {
               localStorage.setItem("role", data.role);
               localStorage.setItem("user_id", data.user_id);
               if (data.role == 'staff') {
-                localStorage.setItem("subject_name", data.subject)
-                return router.push(`/subject/${data.subject}`)
+                localStorage.setItem("subject_name", data.subject_name)
+                return router.push(`/subject/${data.subject_name}`)
               }
               else { return router.push("/dash"); }
 
