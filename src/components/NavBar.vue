@@ -1,15 +1,21 @@
 <template>
   <div>
-    <h1 class="text-center m-3 txt-color">{{ title }}</h1>
-    <div class="position-relative" style="margin-left: 3%; margin-right: 3%">
-      <h3 class="ms-2">Welcome {{ username }}</h3>
-      <div class="text-end me-1 position-absolute top-0 end-0">
+    <h5 class="text-center m-3 ">Welcome {{ username }}</h5>
+    <div class="d-flex justify-content-between m-3">
+      
+        <router-link to="/dash">
+          <img src="../assets/logo1.png" alt="Logo" width="100" height="50" class="d-inline-block align-text-top" />
+        </router-link>
+      
+      <h3 class="ms-2">{{ title }}</h3>
+      
         <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-block">
           Logout <i class="bi bi-box-arrow-right"></i>
         </button>
-      </div>
-      <hr class="border border-primary border-2 opacity-100" />
+      
+      
     </div>
+    <hr class="border border-primary border-2 opacity-100 m-3" />
   </div>
 </template>
 <script>
