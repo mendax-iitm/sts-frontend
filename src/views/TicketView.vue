@@ -63,12 +63,12 @@
       </div>
     </div>
     <div class="d-flex justify-content-end">
-        <div v-if="!this.duplicate">
+        <div v-if="!this.duplicate && this.role != 'student'">
             <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark FAQ</button>
       <button v-if="ticket_details.isFAQ" class="btn btn-danger m-3" @click="UnMarkFAQ(ticket_details.ticket_id)">UnMark FAQ</button>
         </div>
       
-      <button v-if="!duplicate" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
+      <button v-if="!duplicate && this.role != 'student'" class="btn btn-danger m-3" @click="MarkDuplicate(ticket_details.ticket_id)">Mark Duplicate</button>
     </div>
 
 
@@ -177,7 +177,8 @@ export default {
       likes: 0,
       isLiked: false,
       true_response: "",
-      duplicate: false
+      duplicate: false,
+      role: "student"
     };
   },
 
@@ -267,6 +268,7 @@ export default {
           for (let response of this.response_list) {
             if (response.response_id == res_id) {
               response.isAnswer = true;
+              this.true_response = response.response
             } else {
               response.isAnswer = false;
             }
@@ -385,16 +387,6 @@ export default {
               })
               .then((data) => {
                 console.log(data);
-
-                // this.ticket_details.ticket_status = "resolved";
-
-                // for (let response of this.response_list) {
-                //     if (response.response_id == res_id) {
-                //         response.isAnswer = true;
-                //     } else {
-                //         response.isAnswer = false;
-                //     }
-                // }
                 window.location.reload()
 
 
@@ -410,6 +402,7 @@ export default {
   },
   mounted: function () {
     this.username = localStorage.getItem("username");
+    this.role = localStorage.getItem("role")
     fetch(`http://127.0.0.1:5500/api/response/${this.$route.params.id}`, {
       method: "GET",
       headers: {
