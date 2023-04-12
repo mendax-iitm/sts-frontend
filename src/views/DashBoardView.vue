@@ -47,11 +47,15 @@ export default {
     };
   },
   methods: {},
-  beforeCreate() {
+  beforeRouteEnter(to, from, next) {
     if (localStorage.getItem("role") == 'staff') {
-      router.push(`/subject/${localStorage.getItem('subject_name')}`)
+      next({ name: 'Subject Dashboard', params: { subject_name: localStorage.getItem("subject_name") } })
+    }
+    else {
+      next({ name: 'dashboard' })
     }
   },
+
   beforeMount() {
 
     fetch("http://127.0.0.1:5500/api/tag/subject", {
