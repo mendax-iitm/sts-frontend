@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <CreateTicket :subject_tag="subject_name" />
+      <CreateTicket :subject_tag="subject_name" v-if="role == 'student'" />
     </div>
   </div>
 </template>
@@ -56,6 +56,7 @@ export default {
       search: "",
       selectedOption: "faq",
       reload: false,
+      role: localStorage.getItem("role")
     };
   },
   methods: {

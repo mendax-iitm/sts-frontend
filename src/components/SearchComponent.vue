@@ -1,6 +1,6 @@
 <template>
     <div>
-        <NavBar :title="title"></NavBar>
+        <NavBar :title="title" :isSearch="false"></NavBar>
         <div>
             <SideBar @filter-change="tagFilter" @Reset="resetFilter" :reload="reload"></SideBar>
             <form class="search" @submit.prevent="search_function">
@@ -50,6 +50,8 @@ export default {
             filtered_list: [],
             search: this.$route.params.search,
             reload: false,
+            subject_name: localStorage.getItem("subject_name"),
+            role: localStorage.getItem("role")
         }
     },
     methods: {
@@ -57,30 +59,47 @@ export default {
             this.reload = true;
             this.ticket_list = [];
             this.filtered_list = []
-            fetch(`http://127.0.0.1:5500/api/tag/subject`)
-                .then(res => res.json())
-                .then(data => {
-                    const subjects = data.map(x => x.subject_name)
-                    //Format-> ['BDM', 'BA', 'MLT', 'AppDev-1', 'AppDev-2']
-                    subjects.forEach(name => {
-                        fetch(`http://127.0.0.1:5500/api/subject/${name}?search=${this.search}`, {
-                            method: "GET",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "Access-Control-Allow-Origin": "*",
-                                Authorization: "Bearer " + localStorage.getItem("access_token"),
-                            }
-                        })
-                            .then(res => res.json())
-                            .then((data) => {
-                                if (data.length) {
-                                    this.ticket_list.push(...data);
-                                    this.filtered_list.push(...data);
+            if (this.role == 'staff') {
+                fetch(`http://127.0.0.1:5500/api/subject/${this.subject_name}?search=${this.search}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                        Authorization: "Bearer " + localStorage.getItem("access_token"),
+                    }
+                })
+                    .then(res => res.json())
+                    .then((data) => {
+                        this.ticket_list = data;
+                        this.filtered_list = data;
+                    })
+                    .catch((err) => console.log(err));
+            } else {
+                fetch(`http://127.0.0.1:5500/api/tag/subject`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const subjects = data.map(x => x.subject_name)
+                        //Format-> ['BDM', 'BA', 'MLT', 'AppDev-1', 'AppDev-2']
+                        subjects.forEach(name => {
+                            fetch(`http://127.0.0.1:5500/api/subject/${name}?search=${this.search}`, {
+                                method: "GET",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Access-Control-Allow-Origin": "*",
+                                    Authorization: "Bearer " + localStorage.getItem("access_token"),
                                 }
                             })
-                            .catch((err) => console.log(err));
-                    });
-                })
+                                .then(res => res.json())
+                                .then((data) => {
+                                    if (data.length) {
+                                        this.ticket_list.push(...data);
+                                        this.filtered_list.push(...data);
+                                    }
+                                })
+                                .catch((err) => console.log(err));
+                        });
+                    })
+            }
         },
         tagFilter(value) {
             this.reload = false;
@@ -108,7 +127,7 @@ form.search {
 
 input[type='text'].search {
     padding: 1rem;
-    width: 25rem;
+    width: 35rem;
     height: 3rem;
     border-radius: 50px;
     margin-right: -50px;

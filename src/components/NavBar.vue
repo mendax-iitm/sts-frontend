@@ -17,7 +17,7 @@
           <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
         </router-link>
       </span>
-      <form class="search" @submit.prevent="search_function">
+      <form class="search" @submit.prevent="search_function" v-if="isSearch != false">
         <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
         <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
       </form>
@@ -41,7 +41,7 @@ export default {
       role: localStorage.getItem("role")
     }
   },
-  props: ["title", "isSubject"],
+  props: ["title", "isSubject", "isSearch"],
   methods: {
     search_function() {
       return router.push(`/search/${this.search}`)
