@@ -151,8 +151,9 @@ export default {
       return router.push("/");
     }
     if (localStorage.getItem('role') == 'staff' && localStorage.getItem('subject_name') != this.subject_name) {
-      alert("You are not authorised to redirect to other subject page")
-      return router.push(`/subject/BA`);
+      alert("You are not authorised to change url and access other subject page")
+      localStorage.clear()
+      return router.push(`/`);
 
 
     }
