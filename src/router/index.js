@@ -24,7 +24,7 @@ const routes = [
   { path: "/dash", name: "dashboard", component: DashBoardView },
   { path: "/subject/:subject", component: SubjectView, name: "Subject Dashboard" },
   { path: "/ticket/:id", component: TicketView, name: "TicketPage" },
-  { path: "/search/:subject/:search", component: SearchComp, name: "SearchPage" },
+  { path: "/search/:search", component: SearchComp, name: "SearchPage" },
 ];
 
 const router = createRouter({

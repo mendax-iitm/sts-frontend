@@ -13,10 +13,6 @@
         id="btnradio3" />
       <label class="btn btn-outline-primary" for="btnradio3">Unresolved</label>
     </span>
-    <form class="search" @submit.prevent="search_function">
-      <input class="search" type="text" id="search" placeholder="Search here...." v-model="search" />
-      <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
-    </form>
     <div class="container pt-2">
       <div class="text-center" v-if="!filtered_list.length">
         <img src="../assets/notFound.jpg" alt="No image found">
@@ -63,9 +59,6 @@ export default {
     };
   },
   methods: {
-    search_function() {
-      return router.push(`/search/${this.subject_name}/${this.search}`)
-    },
     tagFilter(value) {
       this.reload = false;
       this.filtered_list = this.ticket_list.filter(x => x.sec_name == value)

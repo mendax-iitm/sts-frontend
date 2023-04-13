@@ -19,14 +19,13 @@
                                 {{ ticket.likes }}
                             </div>
                             <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
-                                <div v-if="ticket.sec_name">
-                                    <span class="badge bg-primary">{{ ticket.sec_name }}</span><br />
-                                </div>
+                                <span class="badge bg-info me-2">{{ ticket.subject_name }}</span>
+                                <span class="badge bg-primary">{{ ticket.sec_name }}</span><br>
                                 <router-link :to="'/ticket/' + ticket.ticket_id">{{ ticket.title }}</router-link>
                             </div>
                         </div>
                     </div>
-                    <CreateTicket :subject_tag="subject_name" />
+                    <!-- <CreateTicket :subject_tag="subject_name" /> -->
                 </div>
             </div>
         </div>
@@ -36,17 +35,16 @@
 import NavBar from "@/components/NavBar.vue";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router";
-import CreateTicket from "@/components/CreateTicket.vue";
+// import CreateTicket from "@/components/CreateTicket.vue";
 export default {
     name: 'SeacrhComp',
     components: {
         NavBar,
-        CreateTicket,
+        // CreateTicket,
         SideBar
     },
     data() {
         return {
-            subject_name: this.$route.params.subject,
             title: "Search Page",
             ticket_list: [],
             filtered_list: [],
@@ -57,20 +55,32 @@ export default {
     methods: {
         search_function() {
             this.reload = true;
-            fetch(`http://127.0.0.1:5500/api/subject/${this.subject_name}?search=${this.search}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Access-Control-Allow-Origin": "*",
-                    Authorization: "Bearer " + localStorage.getItem("access_token"),
-                }
-            })
+            this.ticket_list = [];
+            this.filtered_list = []
+            fetch(`http://127.0.0.1:5500/api/tag/subject`)
                 .then(res => res.json())
-                .then((data) => {
-                    this.ticket_list = data;
-                    this.filtered_list = data;
+                .then(data => {
+                    const subjects = data.map(x => x.subject_name)
+                    //Format-> ['BDM', 'BA', 'MLT', 'AppDev-1', 'AppDev-2']
+                    subjects.forEach(name => {
+                        fetch(`http://127.0.0.1:5500/api/subject/${name}?search=${this.search}`, {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Access-Control-Allow-Origin": "*",
+                                Authorization: "Bearer " + localStorage.getItem("access_token"),
+                            }
+                        })
+                            .then(res => res.json())
+                            .then((data) => {
+                                if (data.length) {
+                                    this.ticket_list.push(...data);
+                                    this.filtered_list.push(...data);
+                                }
+                            })
+                            .catch((err) => console.log(err));
+                    });
                 })
-                .catch((err) => console.log(err));
         },
         tagFilter(value) {
             this.reload = false;
