@@ -1,5 +1,5 @@
 <template>
-  <NavBar :title="ticket_details.subject_name"></NavBar>
+  <NavBar :title="ticket_details.subject_name" isSubject="true"></NavBar>
   <div class="container-fluid mt-1" style="width: 80%; margin: auto">
 
     <!-- Question Card -->

@@ -1,6 +1,11 @@
 <template>
   <header class="sticky-top header">
-    <span class="text-center">
+    <span class="text-center" v-if="isSubject">
+      <router-link :to="'/subject/' + title">
+        <p class="h1 pt-2">{{ title }}</p>
+      </router-link>
+    </span>
+    <span class="text-center" v-else>
       <p class="h1 pt-2">{{ title }}</p>
     </span>
     <div class="position-relative ms-4 me-4 pb-3">
@@ -31,7 +36,7 @@ export default {
       role: localStorage.getItem("role")
     }
   },
-  props: ["title"],
+  props: ["title", "isSubject"],
   methods: {
     logout() {
       localStorage.clear();
@@ -43,5 +48,11 @@ export default {
 <style scoped>
 .header {
   background-color: #6B62FF;
+}
+
+a {
+  color: inherit;
+  /* color: #653239; */
+  text-decoration: none;
 }
 </style>
