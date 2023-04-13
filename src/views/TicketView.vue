@@ -138,6 +138,7 @@
 </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
+import router from '@/router';
 export default {
   name: "TicketView",
   components: { NavBar },
@@ -374,6 +375,7 @@ export default {
         .catch((err) => console.log(err));
     },
   },
+
   mounted: function () {
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role")
@@ -394,6 +396,12 @@ export default {
       .then((data) => {
         console.log(data);
         this.ticket_details = data;
+        if (this.role == 'staff') {
+          if (this.ticket_details.subject_name !== localStorage.getItem("subject_name")) {
+            alert("You are accessing other subject ticket")
+            router.push(`/subject/${localStorage.getItem("subject_name")}`)
+          }
+        }
         this.response_list = data.response_list;
         this.likes = this.ticket_details.likes.length;
         this.isLiked = this.ticket_details.likes.includes(this.current_user_id);

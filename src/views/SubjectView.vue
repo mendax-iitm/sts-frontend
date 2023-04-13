@@ -143,11 +143,20 @@ export default {
         .catch((err) => console.log(err));
     },
   },
+
+
   beforeMount() {
     if (localStorage.getItem('access_token') == null) {
       alert("Login first");
       return router.push("/");
     }
+    if (localStorage.getItem('role') == 'staff' && localStorage.getItem('subject_name') != this.subject_name) {
+      alert("You are not authorised to redirect to other subject page")
+      return router.push(`/subject/BA`);
+
+
+    }
+
     this.FAQ();
   },
 };
