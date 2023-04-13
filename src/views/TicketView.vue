@@ -395,13 +395,14 @@ export default {
       })
       .then((data) => {
         console.log(data);
-        this.ticket_details = data;
+
         if (this.role == 'staff') {
-          if (this.ticket_details.subject_name !== localStorage.getItem("subject_name")) {
+          if (data.subject_name !== localStorage.getItem("subject_name")) {
             alert("You are accessing other subject ticket")
             router.push(`/subject/${localStorage.getItem("subject_name")}`)
           }
         }
+        this.ticket_details = data;
         this.response_list = data.response_list;
         this.likes = this.ticket_details.likes.length;
         this.isLiked = this.ticket_details.likes.includes(this.current_user_id);
