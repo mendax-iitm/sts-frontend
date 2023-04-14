@@ -118,7 +118,7 @@
             placeholder="Please enter your Content" style="min-height: 8em" />
           <label for="floatingContent">Type your Response here</label>
         </div>
-
+       
         <div class="d-flex justify-content-center">
           <button class="btn btn-primary" type="submit">Add Response</button>
         </div>
@@ -129,7 +129,9 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import router from '@/router';
+
 export default {
+
   name: "TicketView",
   components: { NavBar },
   data: function () {
@@ -149,7 +151,7 @@ export default {
 
   methods: {
     AddResponse() {
-      if (!this.response_text) {
+      if (!this.response_text.trimStart()) {
         alert("Empty response body is not allowed.")
       }
       else {
