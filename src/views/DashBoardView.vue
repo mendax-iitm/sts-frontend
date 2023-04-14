@@ -55,11 +55,13 @@ export default {
     else {
       next()
     }
-
   },
 
   beforeMount() {
-
+    if (localStorage.getItem('access_token') == null) {
+      alert('Please Login First.')
+      return router.push('/')
+    }
     fetch("http://127.0.0.1:5500/api/tag/subject", {
       method: "GET",
       headers: {
@@ -68,13 +70,7 @@ export default {
         // Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
     })
-      .then((response) => {
-        if (!response.ok) {
-          alert("Response not ok");
-          router.push("/");
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then((data) => {
         const subject_names = data.map((x) => x.subject_name);
         // subject_names=['MLT', 'BDM', 'BA'] (output format)
@@ -89,13 +85,7 @@ export default {
               },
             }
           )
-            .then((response) => {
-              if (!response.ok) {
-                alert("Response not ok");
-                router.push("/");
-              }
-              return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
               this.subjects[subject] = data
               this.ready = true;

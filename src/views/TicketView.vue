@@ -94,18 +94,9 @@
                 <div class="d-flex justify-content-end">
                   <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
                     Solution</p>
-                  <i @click="
-                    MarkAnswer(
-                      ticket_details.ticket_id,
-                      response.response_id
-                    )
-                  " :class="[
-  'bi',
-  response.isAnswer == true
-    ? 'bi-check-circle-fill text-success'
-    : 'bi-check-circle',
-]" style="font-size: 1.2rem" data-toggle="tooltip" data-placement="top" title="Solution"></i>
-
+                  <i @click="MarkAnswer(ticket_details.ticket_id, response.response_id)"
+                    :class="['bi', response.isAnswer == true ? 'bi-check-circle-fill text-success' : 'bi-check-circle',]"
+                    style="font-size: 1.2rem" data-toggle="tooltip" data-placement="top" title="Solution"></i>
                 </div>
               </div>
             </div>
@@ -114,7 +105,6 @@
                 {{ response.username }}
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -173,7 +163,7 @@ export default {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("Response not ok");
+            alert("Error occured while adding response");
           }
           return response.json();
         })
@@ -207,7 +197,7 @@ export default {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("Response not ok");
+            alert("Error occured while liking this ticket");
           }
           return response.json();
         })
@@ -231,7 +221,7 @@ export default {
       })
         .then((response) => {
           if (!response.ok) {
-            alert("Response not ok");
+            alert("Error occurred while marking response as answer");
           }
           return response.json();
         })
@@ -356,7 +346,7 @@ export default {
             })
               .then((response) => {
                 if (!response.ok) {
-                  alert("Response not ok");
+                  alert("Error occurred while marking as duplicate");
                 }
                 return response.json();
               })
@@ -375,7 +365,6 @@ export default {
         .catch((err) => console.log(err));
     },
   },
-
   mounted: function () {
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role")
@@ -389,7 +378,7 @@ export default {
     })
       .then((response) => {
         if (!response.ok) {
-          alert("Response not ok");
+          alert("Error occurred while retrieving data.");
         }
         return response.json();
       })
@@ -418,5 +407,11 @@ export default {
       })
       .catch((err) => console.log(err));
   },
+  beforeMount() {
+    if (localStorage.getItem('access_token') == null) {
+      alert('Please Login First.')
+      return router.push('/')
+    }
+  }
 };
 </script>

@@ -103,13 +103,7 @@ export default {
           }
         }
       )
-        .then((response) => {
-          if (!response.ok) {
-            alert("Response not ok");
-            router.push("/");
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then((data) => {
           this.ticket_list = data;
           this.filtered_list = data;
@@ -129,13 +123,7 @@ export default {
           }
         }
       )
-        .then((response) => {
-          if (!response.ok) {
-            alert("Response not ok");
-            router.push("/");
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then((data) => {
           this.ticket_list = data;
           this.filtered_list = data;

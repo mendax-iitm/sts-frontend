@@ -111,8 +111,8 @@ export default {
     },
     beforeMount() {
         if (localStorage.getItem('access_token') == null) {
-            alert("Login first");
-            return router.push("/");
+            alert('Please Login First.')
+            return router.push('/')
         }
         this.search_function();
     },
