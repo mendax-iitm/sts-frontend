@@ -149,36 +149,41 @@ export default {
 
   methods: {
     AddResponse() {
-      fetch(`http://127.0.0.1:5500/api/response/${this.$route.params.id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-          response: this.response_text,
-        }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            alert("Error occured while adding response");
-          }
-          return response.json();
+      if (!this.response_text) {
+        alert("Empty response body is not allowed.")
+      }
+      else {
+        fetch(`http://127.0.0.1:5500/api/response/${this.$route.params.id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+          body: JSON.stringify({
+            user_id: localStorage.getItem("user_id"),
+            response: this.response_text,
+          }),
         })
-        .then((data) => {
-          console.log(data);
-          if (data) {
-            window.location.reload();
-          } else {
+          .then((response) => {
+            if (!response.ok) {
+              alert("Error occured while adding response");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            if (data) {
+              window.location.reload();
+            } else {
+              this.response_text = null;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
             this.response_text = null;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          this.response_text = null;
-        });
+          });
+      }
     },
     like(id) {
       this.isLiked ? (this.likes -= 1) : (this.likes += 1),
@@ -244,7 +249,6 @@ export default {
         .catch((err) => console.log(err));
     },
     MarkFAQ(id) {
-
       fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
         method: "PUT",
         headers: {
@@ -274,7 +278,6 @@ export default {
         .catch((err) => console.log(err));
     },
     UnMarkFAQ(id) {
-
       fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
         method: "PUT",
         headers: {
@@ -299,70 +302,61 @@ export default {
           else {
             this.ticket_details.isFAQ = false
           }
-
         })
         .catch((err) => console.log(err));
     },
     MarkDuplicate(id) {
       let title = prompt("Please input the url of original ticket");
-      fetch(`http://127.0.0.1:5500/api/response/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-        body: JSON.stringify({
-          user_id: localStorage.getItem("user_id"),
-          response: "Duplicate ticket, Original thread link: " + title,
-        }),
-
-      })
-        .then((response) => {
-
-          return response.json();
-        }
-        )
-        .then((data) => {
-          if (data.error_code) {
-            alert(data.error_message)
-          }
-          else {
-            this.duplicate = true
-            this.response_list = data.response_list
-            const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
-            const res_id = parseInt(this.response_list[index].response_id)
-            fetch(`http://127.0.0.1:5500/api/response/${this.ticket_details.ticket_id}/${res_id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                Authorization: "Bearer " + localStorage.getItem("access_token"),
-              },
-              body: JSON.stringify({
-                isAnswer: true,
-                ticket_status: "resolved",
-              }),
-            })
-              .then((response) => {
-                if (!response.ok) {
-                  alert("Error occurred while marking as duplicate");
-                }
-                return response.json();
-              })
-              .then((data) => {
-                console.log(data);
-                window.location.reload()
-
-
-              })
-              .catch((err) => console.log(err));
-
-          }
-
-
+      if (title) {
+        fetch(`http://127.0.0.1:5500/api/response/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+          body: JSON.stringify({
+            user_id: localStorage.getItem("user_id"),
+            response: "Duplicate ticket, Original thread link: " + title,
+          }),
         })
-        .catch((err) => console.log(err));
+          .then(response => response.json())
+          .then((data) => {
+            if (data.error_code) {
+              alert(data.error_message)
+            }
+            else {
+              this.duplicate = true
+              this.response_list = data.response_list
+              const index = this.response_list.findIndex(item => item.response.includes('Duplicate ticket'));
+              const res_id = parseInt(this.response_list[index].response_id)
+              fetch(`http://127.0.0.1:5500/api/response/${this.ticket_details.ticket_id}/${res_id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                  isAnswer: true,
+                  ticket_status: "resolved",
+                }),
+              })
+                .then((response) => {
+                  if (!response.ok) {
+                    alert("Error occurred while marking as duplicate");
+                  }
+                  return response.json();
+                })
+                .then((data) => {
+                  console.log(data);
+                  window.location.reload()
+                })
+                .catch((err) => console.log(err));
+            }
+          })
+          .catch((err) => console.log(err));
+      }
     },
   },
   mounted: function () {
