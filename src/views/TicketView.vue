@@ -164,7 +164,7 @@ export default {
           },
           body: JSON.stringify({
             user_id: localStorage.getItem("user_id"),
-            response: this.response_text,
+            response: this.response_text.trimStart(),
           }),
         })
           .then((response) => {
