@@ -10,11 +10,12 @@
             <div class="container pt-2">
                 <div class="row">
                     <div class="text-center" v-if="!filtered_list.length">
-                        <img src="../assets/notFound.jpg" alt="" sizes="" srcset="">
+                        <img src="../assets/notFound.jpg" alt="No image Found" sizes="" srcset="">
                         <h3>No tickets found under this section.</h3>
                     </div>
                     <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
-                        <div class="card position-relative" style="width: 65%; margin: auto; min-height: 4em">
+                        <div class="card position-relative"
+                            :class="[ticket.ticket_status == 'resolved' ? 'bg-success' : 'bg-danger']">
                             <div style="font-size: 2.5em" class="position-absolute">
                                 {{ ticket.likes }}
                             </div>
@@ -134,16 +135,17 @@ input[type='text'].search {
 }
 
 .card {
+    width: 65%;
+    margin: auto;
+    min-height: 4em;
     background-color: #b8b4ff;
-    color: #653239;
-}
-
-body {
-    overflow-x: hidden;
+    color: #000;
+    /* color: #653239; */
 }
 
 a {
-    color: #653239;
+    /* color: #653239; */
+    color: black;
     text-decoration: none;
 }
 </style>

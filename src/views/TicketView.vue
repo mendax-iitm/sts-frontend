@@ -13,9 +13,7 @@
       <div class="row">
         <div class="col-1 d-flex flex-column align-items-center justify-content-center">
           <i @click="like(ticket_details.ticket_id)" :class="[
-            'bi',
-
-            isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
+            'bi', isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
           ]" style="font-size: 2rem" data-toggle="tooltip" data-placement="top" title="Like"></i>
           <p>{{ likes }}</p>
         </div>
@@ -23,9 +21,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ ticket_details.title }}</h5>
             <p class="card-text">{{ ticket_details.description }}</p>
-
             <div class="card-footer text-body-secondary">
-
               Tags:
               <div class="badge bg-primary">
                 {{ ticket_details.sec_name }}
@@ -34,14 +30,10 @@
                 {{ ticket_details.ticket_status }}
               </div>
               <div v-if="ticket_details.isFAQ" class="badge bg-primary">
-
                 FAQ
-
               </div>
               <div v-if="duplicate" class="badge bg-danger">
-
                 Duplicate
-
               </div>
             </div>
           </div>
@@ -71,10 +63,7 @@
 
         <div class="col">
           <div class="card-body">
-
             <p class="card-text">{{ true_response }}</p>
-
-
           </div>
         </div>
       </div>
@@ -118,7 +107,7 @@
             placeholder="Please enter your Content" style="min-height: 8em" />
           <label for="floatingContent">Type your Response here</label>
         </div>
-       
+
         <div class="d-flex justify-content-center">
           <button class="btn btn-primary" type="submit">Add Response</button>
         </div>
@@ -361,7 +350,11 @@ export default {
       }
     },
   },
-  mounted: function () {
+  beforeMount: function () {
+    if (localStorage.getItem('access_token') == null) {
+      alert('Please Login First.')
+      return router.push('/')
+    }
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role")
     fetch(`http://127.0.0.1:5500/api/response/${this.$route.params.id}`, {
@@ -403,11 +396,5 @@ export default {
       })
       .catch((err) => console.log(err));
   },
-  beforeMount() {
-    if (localStorage.getItem('access_token') == null) {
-      alert('Please Login First.')
-      return router.push('/')
-    }
-  }
 };
 </script>
