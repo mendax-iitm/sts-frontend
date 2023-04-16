@@ -7,13 +7,13 @@
     <div class="row" v-else>
       <div class="col-sm-4" v-for="(faq, subject) in subjects" :key="subject">
         <div class="card mt-3" style="margin-left: 5%; margin-right: 5%">
+          <router-link :to="'/subject/' + subject">
+            <h3 class="card-header text-center">
+              {{ subject }}
+            </h3>
+          </router-link>
+          <!-- <hr class="ms-3 me-3" /> -->
           <div class="card-body">
-            <router-link :to="'/subject/' + subject">
-              <h3 class="card-title text-center rounded-pill">
-                {{ subject }}
-              </h3>
-            </router-link>
-            <hr class="ms-3" />
             <div class="text-center" v-if="faq.length == 0">
               <router-link :to="'/subject/' + subject">Click Here to view all the tickets of this subject</router-link>
             </div>
@@ -105,11 +105,13 @@ export default {
 .card {
   /* background-color: #b8b4ff; */
   /* color: #653239; */
+  font-size: large;
   min-height: 19rem;
   box-shadow: 7px 7px 5px rgb(107, 114, 117);
 }
 
-.card-title {
+.card-header {
+  /* background-color: #c1e6fc; */
   background-color: #b8b4ff;
 }
 
