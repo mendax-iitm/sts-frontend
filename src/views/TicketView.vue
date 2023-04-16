@@ -13,7 +13,7 @@
       <div class="row">
         <div class="col-1 d-flex flex-column align-items-center justify-content-center">
           <i @click="like(ticket_details.ticket_id)" :class="[
-            'bi', isLiked ? 'bi-hand-thumbs-up-fill text-primary' : 'bi-hand-thumbs-up',
+            'bi', isLiked ? 'bi-hand-thumbs-up-fill txt-color' : 'bi-hand-thumbs-up',
           ]" style="font-size: 2rem" data-toggle="tooltip" data-placement="top" title="Like"></i>
           <p>{{ likes }}</p>
         </div>
@@ -23,13 +23,13 @@
             <p class="card-text">{{ ticket_details.description }}</p>
             <div class="card-footer text-body-secondary">
               Tags:
-              <div class="badge bg-primary">
+              <div class="badge txt-button">
                 {{ ticket_details.sec_name }}
               </div>
-              <div class="badge bg-primary">
+              <div class="badge txt-button">
                 {{ ticket_details.ticket_status }}
               </div>
-              <div v-if="ticket_details.isFAQ" class="badge bg-primary">
+              <div v-if="ticket_details.isFAQ" class="badge txt-button">
                 FAQ
               </div>
               <div v-if="duplicate" class="badge bg-danger">
@@ -109,7 +109,7 @@
         </div>
 
         <div class="d-flex justify-content-center">
-          <button class="btn btn-primary" type="submit">Add Response</button>
+          <button class="btn txt-button" style="color:whitesmoke" type="submit">Add Response</button>
         </div>
       </form>
     </div>
@@ -398,3 +398,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+.txt-button {
+  background-color: #6b62ff;
+}
+
+.txt-color {
+  color: #6b62ff;
+}
+</style>
