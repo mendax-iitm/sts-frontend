@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pb-5">
     <NavBar :title="title"></NavBar>
     <div v-if="!ready">
       <h1>Please wait Loading</h1>
@@ -9,7 +9,7 @@
         <div class="card mt-3" style="margin-left: 5%; margin-right: 5%">
           <div class="card-body">
             <router-link :to="'/subject/' + subject">
-              <h3 class="card-title text-center">
+              <h3 class="card-title text-center rounded-pill">
                 {{ subject }}
               </h3>
             </router-link>
@@ -97,29 +97,21 @@ export default {
 };
 </script>
 <style scoped>
-hr {
-  border-top: solid #182825;
-  border-width: 5px;
-}
-
 .card hr {
   border-width: 5px;
   border-color: #182825;
 }
 
 .card {
-  background-color: #b8b4ff;
-  color: #653239;
+  /* background-color: #b8b4ff; */
+  /* color: #653239; */
   min-height: 19rem;
+  box-shadow: 7px 7px 5px rgb(107, 114, 117);
 }
 
-body {
-  overflow-x: hidden;
+.card-title {
+  background-color: #b8b4ff;
 }
-
-/* .card-title {
-  color: red;
-} */
 
 a {
   /* color: green; */
