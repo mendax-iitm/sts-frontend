@@ -165,6 +165,19 @@ export default {
           .then((data) => {
             console.log(data);
             if (data) {
+              // Send Notification to the ticket author abt new response
+              fetch(`http://127.0.0.1:5500/notify/student`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                  username: this.username,
+                  ticket_id: this.$route.params.id,
+                })
+              })
               window.location.reload();
             } else {
               this.response_text = null;

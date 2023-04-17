@@ -120,12 +120,12 @@ export default {
             secondary_tag: this.sec_tag_name,
           }),
         })
-          .then((response) => {
-            return response.json();
-          })
+          .then(response => response.json())
           .then((data) => {
             console.log(data);
             if (data) {
+              // Send Notification to the staff abt new ticket
+              // fetch(`http://127.0.0.1:5500/notify/staff`)
               window.location.reload();
             } else {
               this.errStatus = true;
