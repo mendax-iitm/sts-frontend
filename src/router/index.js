@@ -7,6 +7,8 @@ import TestingAPI from "../components/Test.vue";
 import DashBoardView from "../views/DashBoardView.vue";
 import SubjectView from "../views/SubjectView.vue";
 import TicketView from "../views/TicketView.vue";
+import TagView from "../views/TagView.vue";
+import RoleView from "../views/RoleView.vue";
 const routes = [
   { path: "/", name: "home", component: HomeView },
   {
@@ -22,6 +24,8 @@ const routes = [
   { path: "/enroll", name: "enroll", component: RegisterStaff },
   { path: "/test", name: "test", component: TestingAPI },
   { path: "/dash", name: "dashboard", component: DashBoardView },
+  { path: "/tag", name: "tagPage", component: TagView},
+  { path: "/role", name: "rolePage", component: RoleView},
   { path: "/subject/:subject", component: SubjectView, name: "Subject Dashboard" },
   { path: "/ticket/:id", component: TicketView, name: "TicketPage" },
   { path: "/search/:search", component: SearchComp, name: "SearchPage" },
