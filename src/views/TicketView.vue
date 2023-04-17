@@ -79,7 +79,7 @@
 
             <div class="card-body">
               <p class="card-title">{{ response.response }}</p>
-              <div v-if="ticket_details.user_id == current_user_id ? true : false">
+              <div v-if="ticket_details.user_id == current_user_id || role == 'admin'">
                 <div class="d-flex justify-content-end">
                   <p class="card-text me-2" :class="{ 'h5 text-success': response.isAnswer }">
                     Solution</p>
