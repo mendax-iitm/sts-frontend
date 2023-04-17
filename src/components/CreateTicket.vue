@@ -120,12 +120,23 @@ export default {
             secondary_tag: this.sec_tag_name,
           }),
         })
-          .then((response) => {
-            return response.json();
-          })
+          .then(response => response.json())
           .then((data) => {
             console.log(data);
             if (data) {
+              // Send Notification to the staff abt new ticket
+              fetch(`http://127.0.0.1:5500/notify/staff`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Access-Control-Allow-Origin": "*",
+                  Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                  subject_name: this.subject_tag,
+                  ticket_id: data.ticket_id
+                })
+              })
               window.location.reload();
             } else {
               this.errStatus = true;
