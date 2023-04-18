@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavBarAdmin></NavBarAdmin>
+    <CreateTag></CreateTag>
     <div class="container pt-2">
       <div class="text-center" v-if="!filtered_list.length">
         <img src="../assets/notFound.jpg" alt="No image found">
@@ -30,7 +31,7 @@
         </ul>
         <div v-if="selectedOption === 'subject_tags'">
           <div class="row m-1" v-for="tag in filtered_list" :key="tag.subject_id">
-            <div class="card position-relative" style="width: 84%; margin-left: 13rem; min-height: 4em">
+            <div class="card position-relative" style="min-height: 4em">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
                 <div class="flex-grow-1 justify-content-start">
                 <h5>{{ tag.sec_name }}</h5>
@@ -44,7 +45,7 @@
         </div>
         <div v-else>
           <div class="row m-1" v-for="tag in filtered_list" :key="tag.sec_id">
-            <div class="card position-relative" style="width: 84%; margin-left: 13rem; min-height: 4em">
+            <div class="card position-relative" style="min-height: 4em">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex justify-content-between mt-1">
                 <h5>{{ tag.subject_name }}</h5>
                 <EditTag :tag_id="tag.sec_id" :TagType="secondary"/>
@@ -54,7 +55,7 @@
         </div>
       </div>
     </div>
-    <CreateTag/>
+    
   </div>
 </template>
 <script>
@@ -72,10 +73,12 @@ export default{
   },
   data: function(){
     return {
+      subject: "subject",
+      secondary: "secondary",
       filtered_list: [],
       selectedOption: "subject_tags",
       reload: false,
-      role: localStorage.get("role")
+      role: localStorage.getItem("role")
     };
 
   },

@@ -88,7 +88,7 @@ export default {
             filtered_list: [],
             selectedOption: "approved",
             reload: false,
-            role: localStorage.get("role")
+            role: localStorage.getItem("role")
         };
     },
     methods: {
