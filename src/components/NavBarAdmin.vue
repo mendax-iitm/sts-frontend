@@ -1,10 +1,10 @@
 <template>
     <nav class="navbar navbar-dark navbar-expand-lg shadow p-2 mb-5" style="background-color: #6f2cf3;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" >
-                <img src="logo1_small.png" alt="Logo" width="50" height="50" class="d-inline-block align-text">
+            <router-link to="/dash" class="navbar-brand">
+                <img src="../assets/logo1_small.png" alt="Logo" width="50" height="50" class="d-inline-block align-text">
                 Support Central
-            </a>
+            </router-link>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -36,7 +36,7 @@ export default {
         }
     },
     methods: {
-        logout(){
+        logout() {
             localStorage.clear();
             return router.push("/");
         }

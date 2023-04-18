@@ -63,72 +63,73 @@ import CreateTag from "@/components/CreateTag.vue";
 import EditTag from "@/components/EditTag.vue";
 import router from "@/router";
 
-export default{
+export default {
   name: "TagView",
   components: {
     NavBarAdmin,
     CreateTag,
     EditTag,
   },
-  data: function(){
+  data: function () {
     return {
       filtered_list: [],
       selectedOption: "subject_tags",
       reload: false,
-      role: localStorage.get("role")
+      role: localStorage.getItem("role")
     };
 
   },
   methods: {
-    SUBJECTS(){
+    SUBJECTS() {
       this.selectedOption = "subject_tags",
-      this.reload = true,
-      fetch(`http://127.0.0.1:5500/api/tag/subject`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        }
-      })
-      .then((response) => {
-        if (!response.ok) {
-            alert("Please login first");
-            router.push("/");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        this.filtered_list = data;
-      })
-      .catch((err) => console.log(err));
+        this.reload = true,
+        fetch(`http://127.0.0.1:5500/api/tag/subject`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          }
+        })
+          .then((response) => {
+            if (!response.ok) {
+              alert("Please login first");
+              router.push("/");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            this.filtered_list = data;
+          })
+          .catch((err) => console.log(err));
     },
-    SECONDARY(){
+    SECONDARY() {
       this.selectedOption = "secondary_tags"
       this.reload = true,
-      fetch(`http://127.0.0.1:5500/api/tag/secondary`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        }
-      })
-      .then((response) => {
-        if (!response.ok) {
-            alert("PLease login first");
-            router.push("/");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        this.filtered_list = data;
-      })
-      .catch((err) => console.log(err));
+        fetch(`http://127.0.0.1:5500/api/tag/secondary`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          }
+        })
+          .then((response) => {
+            if (!response.ok) {
+              alert("PLease login first");
+              router.push("/");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            this.filtered_list = data;
+          })
+          .catch((err) => console.log(err));
     },
   },
 
   beforeMount() {
+    console.log("here")
     this.SUBJECTS();
   }
 }

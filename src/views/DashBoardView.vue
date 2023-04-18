@@ -1,6 +1,7 @@
 <template>
   <div class="pb-5">
     <NavBar :title="title"></NavBar>
+    <nav-bar-admin/>
     <div v-if="!ready">
       <h1>Please wait Loading</h1>
     </div>
@@ -33,10 +34,12 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import router from "@/router";
+import NavBarAdmin from '@/components/NavBarAdmin.vue';
 export default {
   name: "DashBoardView",
   components: {
     NavBar,
+    NavBarAdmin,
   },
   data: function () {
     return {
