@@ -2,37 +2,28 @@
   <div>
     <NavBarAdmin></NavBarAdmin>
     <CreateTag></CreateTag>
+    <span class="btn-group" style="margin-left: 9%;">
+      <input type="radio" class="btn-check" value="subject_tags" v-model="selectedOption" @change="SUBJECTS"
+        id="btnradio1" />
+      <label class="btn btn-outline-primary" for="btnradio1">Subject Tags</label>
+
+      <input type="radio" class="btn-check" value="secondary_tags" v-model="selectedOption" @change="SECONDARY"
+        id="btnradio2" />
+      <label class="btn btn-outline-primary" for="btnradio2">Secondary Tags</label>
+    </span>
+    <form class="search" role="search">
+      <input class="search" type="text" id="search" placeholder="Search Tag name here..." v-model="search"
+        @input="search_function" />
+      <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
+    </form>
     <div class="container pt-2">
-      <div class="text-center" v-if="!tag_list.length">
+      <div class="text-center" v-if="!filtered_list.length">
         <img src="../assets/notFound.jpg" alt="No image found">
         <h3>No tags found under this section.</h3>
       </div>
       <div v-else>
-        <ul class="nav nav-fill">
-          <li class="nav-item">
-            <div class="d-flex justify-content-start">
-              <span class="btn-group">
-                <input type="radio" class="btn-check" value="subject_tags" v-model="selectedOption" @change="SUBJECTS"
-                  id="btnradio1" />
-                <label class="btn btn-outline-primary" for="btnradio1">Subject Tags</label>
-
-                <input type="radio" class="btn-check" value="secondary_tags" v-model="selectedOption" @change="SECONDARY"
-                  id="btnradio2" />
-                <label class="btn btn-outline-primary" for="btnradio2">Secondary Tags</label>
-              </span>
-            </div>
-          </li>
-          <li class="nav-item">
-            <div class="d-flex justify-content-end">
-              <form class="d-flex" role="search">
-                <input type="text" class="form-control me-2 search" placeholder="Search" aria-label="Search" />
-                <button type="submit" class="btn" style="font-size: large;"> <i class="bi bi-search"></i> </button>
-              </form>
-            </div>
-          </li>
-        </ul>
         <div v-if="selectedOption == 'subject_tags'">
-          <div class="row m-3" v-for="tag in tag_list" :key="tag.subject_id">
+          <div class="row m-3" v-for="tag in filtered_list" :key="tag.subject_id">
             <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
                 <EditTag :label="tag.subject_name" 
@@ -44,7 +35,7 @@
           </div>
         </div>
         <div v-else>
-          <div class="row m-3" v-for="tag in tag_list" :key="tag.sec_id">
+          <div class="row m-3" v-for="tag in filtered_list" :key="tag.sec_id">
             <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex justify-content-between mt-1">
               
@@ -79,7 +70,9 @@ export default {
     return {
       subject: "subject",
       secondary: "secondary",
+      search: '',
       tag_list: [],
+      filtered_list: [],
       selectedOption: "subject_tags",
       role: localStorage.getItem("role"),
       SubTagFlag: false,
@@ -88,6 +81,13 @@ export default {
     };
   },
   methods: {
+    search_function() {
+      if (this.selectedOption == 'subject_tags') {
+        this.filtered_list = this.tag_list.filter(x => x.subject_name.toLowerCase().includes(this.search.toLowerCase()))
+      } else {
+        this.filtered_list = this.tag_list.filter(x => x.sec_name.toLowerCase().includes(this.search.toLowerCase()))
+      }
+    },
     updateLabel(label, tagType, tag_id) {
       if (tagType == 'secondary') {
         this.tag_list.forEach(function (list) {
@@ -122,25 +122,7 @@ export default {
         })
         .then((data) => {
           this.tag_list = data;
-        })
-        .catch((err) => console.log(err));
-      fetch(`http://127.0.0.1:5500/api/tag/subject`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        }
-      })
-        .then((response) => {
-          if (!response.ok) {
-            alert("Please login first");
-            router.push("/");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          this.tag_list = data;
+          this.filtered_list = data;
         })
         .catch((err) => console.log(err));
     },
@@ -156,6 +138,7 @@ export default {
         .then(response => response.json())
         .then((data) => {
           this.tag_list = data;
+          this.filtered_list = data;
         })
         .catch((err) => console.log(err));
     },
@@ -167,6 +150,12 @@ export default {
 }
 </script>
 <style scoped>
+form.search {
+  display: inline-block;
+  margin-left: 24%;
+  width: auto;
+}
+
 input[type='text'].search {
   padding: 1rem;
   width: 40rem;

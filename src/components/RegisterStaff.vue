@@ -124,7 +124,7 @@ export default {
         })
           .then((response) => {
             if (!response.ok) {
-              alert("Response not ok");
+              alert("Please use a different Email-ID");
             }
             return response.json();
           })
