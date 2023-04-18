@@ -1,78 +1,60 @@
 <template>
     <div>
-        <button class="btn btn-block" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">Edit
-    </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-danger" id="exampleModalLabel">
-                            Edit Tag Form
-                        </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form @submit.prevent="EditTag">
-                            <div v-if="errStatus">
-                                <br />
-                                <p class="alert alert-danger">{{ errormsg }}</p>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" v-model="tag_name" class="form-control" id="floatingInput" placeholder="Tag Name" />
-                                <label for="floatingInput">New Tag Name</label>
-                                <div class="error" v-if="v$.tag_name.$error">
-                                Tag Name is required
-                                </div>
-                            </div>
-                            <button class="w-100 btn btn-lg btn-block" type="submit">
-                            Submit
-                            </button>
-                        </form>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-                            Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div v-if="!editing">
+        <label>{{ label }}</label>
+        
+        <i
+        @click="editing = true, newLabel = label"
+          class="bi bi-pencil text-primary h5 mx-2"
+          data-toggle="tooltip"
+           
+          data-placement="top"
+          title="Edit"
+        ></i> 
+      </div>
+      <div v-else>
+        <input type="text" class="no-border" v-model="newLabel">
+        <i
+        @click="saveNewLabel"
+          class="bi bi-check-lg text-success h5"
+          data-toggle="tooltip"
+          style="font-size: 2rem" 
+          data-placement="top"
+          title="Save"
+        ></i>
+       
+        <i
+        @click="editing = false"    
+          class="bi bi-x text-danger h5"
+          data-toggle="tooltip"
+          style="font-size: 2rem" 
+          data-placement="top"
+          title="Save"
+        ></i>
+      </div>
     </div>
-</template>
+  </template>
 <script>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+
 
 export default {
-    setup() {
-        return {
-            v$: useVuelidate(),
-        };
-    },
+
     name: "EditTag",
-    data : function(){
+    data: function () {
         return {
             tag_name: "",
             errormsg: "",
             errStatus: false,
+            newLabel: '',
+            editing: false
         };
     },
-    props: ["tag_id", "TagType"],
-    validations(){
-        return {
-            tag_name: { required },
-        };
-    },
+    props: ["tag_id", "TagType", "label"],
+
     methods: {
-        EditTag: function(){
-            this.v$.$touch();
-            if(this.v$.$error){
-                console.log("fail")
-            }
-            else {
+        saveNewLabel() {
+            console.log(this.newLabel)
+            if (this.newLabel !== '') {
                 fetch(`http://127.0.0.1:5500/api/tag/${this.TagType}/${this.tag_id}`, {
                     method: "PUT",
                     headers: {
@@ -81,40 +63,51 @@ export default {
                         Authorization: "Bearer " + localStorage.getItem("access_token"),
                     },
                     body: JSON.stringify({
-                        tag_name: this.tag_name
+                        tag_name: this.newLabel
                     })
                 })
-                .then((response) => {
-                    return response.json()
-                })
-                .then((data) => {
-                    if (data){
-                        window.location.reload();
-                    }
-                    else {
+                    .then((response) => {
+                        return response.json()
+                    })
+                    .then((data) => {
+                        if (data) {
+                            console.log(data)
+                        }
+                        else {
+                            this.errStatus = true;
+                            this.errormsg = data.error_message;
+                            this.tag_name = null;
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        alert("This tag already exists")
                         this.errStatus = true;
-                        this.errormsg = data.error_message;
-                        this.tag_name = null;
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.errStatus = true;
-                    this.errormsg = "This Tag already exists";
-                    this.tag_name = null
-                });
+                        this.errormsg = "This Tag already exists";
+                        this.tag_name = null
+                    });
+                this.$emit('update-label', this.newLabel, this.TagType, this.tag_id);
+                this.editing = false;
+                this.newLabel = '';
             }
+        },
+        EditTag: function () {
+
+
+
         },
     },
 };
 </script>
 <style scoped>
 .btn-block {
-  background-color: rgb(107, 98, 255);
+    background-color: rgb(107, 98, 255);
 }
 
+
+
 .error {
-  text-align: left;
-  color: red;
+    text-align: left;
+    color: red;
 }
 </style>

@@ -32,25 +32,26 @@
           </li>
         </ul>
         <div v-if="selectedOption == 'subject_tags'">
-          <div class="row m-1" v-for="tag in tag_list" :key="tag.subject_id">
-            <div class="card position-relative" style="min-height: 4em">
+          <div class="row m-3" v-for="tag in tag_list" :key="tag.subject_id">
+            <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
-                <div class="flex-grow-1 justify-content-start">
-                  <h5>{{ tag.subject_name }}</h5>
-                </div>
-                <div class="justify-content-end">
-                  <EditTag :tag_id="tag.subject_id" :TagType="subject" />
-                </div>
+                <EditTag :label="tag.subject_name" 
+        :tag_id="tag.subject_id" 
+        TagType="subject"
+        @update-label="updateLabel"/>
               </div>
             </div>
           </div>
         </div>
         <div v-else>
-          <div class="row m-1" v-for="tag in tag_list" :key="tag.sec_id">
-            <div class="card position-relative" style="min-height: 4em">
+          <div class="row m-3" v-for="tag in tag_list" :key="tag.sec_id">
+            <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex justify-content-between mt-1">
-                <h5>{{ tag.sec_name }}</h5>
-                <EditTag :tag_id="tag.sec_id" :TagType="secondary" />
+              
+        <EditTag :label="tag.sec_name" 
+        :tag_id="tag.sec_id" 
+        TagType="secondary"
+        @update-label="updateLabel"/>
               </div>
             </div>
           </div>
@@ -63,7 +64,7 @@
 <script>
 import NavBarAdmin from "@/components/NavBarAdmin.vue";
 import CreateTag from "@/components/CreateTag.vue";
-import EditTag from "@/components/EditTag.vue";
+import EditTag from "@/components/EditTag.vue"
 import router from "@/router";
 
 export default {
@@ -71,7 +72,8 @@ export default {
   components: {
     NavBarAdmin,
     CreateTag,
-    EditTag,
+    EditTag
+
   },
   data: function () {
     return {
@@ -79,10 +81,29 @@ export default {
       secondary: "secondary",
       tag_list: [],
       selectedOption: "subject_tags",
-      role: localStorage.getItem("role")
+      role: localStorage.getItem("role"),
+      SubTagFlag: false,
+      SecTagFlag: false
+
     };
   },
   methods: {
+    updateLabel(label, tagType, tag_id) {
+      if (tagType == 'secondary') {
+        this.tag_list.forEach(function (list) {
+          if (list.sec_id === tag_id) {
+            list.sec_name = label;
+          }
+        });
+      }
+      else {
+        this.tag_list.forEach(function (list) {
+          if (list.subject_id === tag_id) {
+            list.subject_name = label;
+          }
+        });
+      }
+    },
     SUBJECTS() {
       fetch(`http://127.0.0.1:5500/api/tag/subject`, {
         method: "GET",
