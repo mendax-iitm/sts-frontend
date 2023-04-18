@@ -1,14 +1,14 @@
 <template>
     <nav class="navbar navbar-dark navbar-expand-lg shadow p-2 mb-5" style="background-color: #6f2cf3;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#" >
+        <div class="container-fluid position-relative">
+            <a class="navbar-brand" href="#">
                 <img src="../assets/logo1_small.png" alt="Logo" width="50" height="50" class="d-inline-block align-text">
                 Support Central
             </a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/dash" class="nav-link" aria-current="page" >Subjects</router-link>
+                        <router-link to="/dash" class="nav-link" aria-current="page">Subjects</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/tag" class="nav-link" aria-current="page">Tags</router-link>
@@ -19,7 +19,7 @@
                 </ul>
             </div>
             <div class="position-absolute top-0 end-0 mt-3 collapse navbar-collapse">
-                <button @click="logout" style="font-size: large; color: whitesmoke" class="btn">
+                <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-danger">
                     Logout <i class="bi bi-box-arrow-right"></i>
                 </button>
             </div>
@@ -36,10 +36,11 @@ export default {
         }
     },
     methods: {
-        logout(){
+        logout() {
             localStorage.clear();
             return router.push("/");
         }
     },
 }
 </script>
+<style scoped></style>

@@ -20,15 +20,15 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
-  { path: "/register", name: "register", component: RegisterStudent },
-  { path: "/enroll", name: "enroll", component: RegisterStaff },
+  { path: "/register", name: "Register", component: RegisterStudent },
+  { path: "/enroll", name: "Enroll", component: RegisterStaff },
   { path: "/test", name: "test", component: TestingAPI },
-  { path: "/dash", name: "dashboard", component: DashBoardView },
-  { path: "/tag", name: "tagPage", component: TagView},
-  { path: "/role", name: "rolePage", component: RoleView},
-  { path: "/subject/:subject", component: SubjectView, name: "Subject Dashboard" },
-  { path: "/ticket/:id", component: TicketView, name: "TicketPage" },
-  { path: "/search/:search", component: SearchComp, name: "SearchPage" },
+  { path: "/dash", name: "Student dashboard", component: DashBoardView },
+  { path: "/tag", name: "tag Page", component: TagView },
+  { path: "/role", name: "role Page", component: RoleView },
+  { path: "/subject/:subject", name: "Subject Dashboard", component: SubjectView },
+  { path: "/ticket/:id", name: "Ticket Page", component: TicketView },
+  { path: "/search/:search", name: "Search Page", component: SearchComp },
 ];
 
 const router = createRouter({
