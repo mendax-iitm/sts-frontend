@@ -1,9 +1,10 @@
 <template>
   <NavBar :title="ticket_details.subject_name" isSubject="true"></NavBar>
-  <div class="container-fluid mt-1" style="width: 80%; margin: auto">
+  <div class="container-fluid mt-1" style="width: 70%; margin: auto">
 
     <!-- Question Card -->
-    <div class="card" style="min-height: 4em">
+    <div class="d-flex">
+      <div class="card" style="min-height: 4em; width: 100%;">
       <div class="card-header" :class="{
         'bg-success': ticket_details.ticket_status == 'resolved',
         'bg-danger': ticket_details.ticket_status == 'unresolved',
@@ -40,6 +41,11 @@
         </div>
       </div>
     </div>
+    <div  v-if="role == 'admin'" class="d-flex ms-2 align-items-center justify-content-center"><i @click="Delete(ticket_details.ticket_id)" class="bi bi-trash-fill text-danger"
+    style="font-size: 2rem" data-toggle="tooltip" data-placement="top" title="Delete"></i></div>
+    
+    </div>
+    
     <div class="d-flex justify-content-end">
       <div v-if="!this.duplicate && this.role != 'student'">
         <button v-if="!ticket_details.isFAQ" class="btn btn-primary m-3" @click="MarkFAQ(ticket_details.ticket_id)">Mark
@@ -212,6 +218,28 @@ export default {
         })
         .then((data) => {
           console.log(data);
+        })
+        .catch((err) => console.log(err));
+    },
+    Delete(id) {
+
+      fetch(`http://127.0.0.1:5500/api/subject/ticket/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Error occured while deleting this ticket");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data);
+          router.push(`/subject/${this.ticket_details.subject_name}`)
         })
         .catch((err) => console.log(err));
     },
