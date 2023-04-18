@@ -31,7 +31,7 @@
             </div>
           </li>
         </ul>
-        <div v-if="selectedOption === 'subject_tags'">
+        <div v-if="selectedOption == 'subject_tags'">
           <div class="row m-1" v-for="tag in tag_list" :key="tag.subject_id">
             <div class="card position-relative" style="min-height: 4em">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
@@ -84,27 +84,25 @@ export default {
   },
   methods: {
     SUBJECTS() {
-      this.selectedOption = "subject_tags",
-        this.reload = true,
-        fetch(`http://127.0.0.1:5500/api/tag/subject`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
+      fetch(`http://127.0.0.1:5500/api/tag/subject`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        }
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Please login first");
+            router.push("/");
           }
+          return response.json();
         })
-          .then((response) => {
-            if (!response.ok) {
-              alert("Please login first");
-              router.push("/");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            this.filtered_list = data;
-          })
-          .catch((err) => console.log(err));
+        .then((data) => {
+          this.tag_list = data;
+        })
+        .catch((err) => console.log(err));
       fetch(`http://127.0.0.1:5500/api/tag/subject`, {
         method: "GET",
         headers: {
@@ -126,32 +124,23 @@ export default {
         .catch((err) => console.log(err));
     },
     SECONDARY() {
-      this.selectedOption = "secondary_tags"
-      this.reload = true,
-        fetch(`http://127.0.0.1:5500/api/tag/secondary`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          }
+      fetch(`http://127.0.0.1:5500/api/tag/secondary`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        }
+      })
+        .then(response => response.json())
+        .then((data) => {
+          this.tag_list = data;
         })
-          .then((response) => {
-            if (!response.ok) {
-              alert("PLease login first");
-              router.push("/");
-            }
-            return response.json();
-          })
-          .then((data) => {
-            this.filtered_list = data;
-          })
-          .catch((err) => console.log(err));
+        .catch((err) => console.log(err));
     },
   },
 
   beforeMount() {
-    console.log("here")
     this.SUBJECTS();
   }
 }

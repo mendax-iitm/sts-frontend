@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-dark navbar-expand-lg shadow p-2 mb-5" style="background-color: #6f2cf3;">
         <div class="container-fluid">
-            <router-link to="/dash" class="navbar-brand">
+            <router-link to="/tag" class="navbar-brand">
                 <img src="../assets/logo1_small.png" alt="Logo" width="50" height="50" class="d-inline-block align-text">
                 Support Central
             </router-link>
