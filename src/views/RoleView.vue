@@ -15,12 +15,12 @@
             <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
         </form>
         <div class="container pt-2">
-            <div class="text-center" v-if="!filtered_list.length">
+            <div class="text-center" v-if="!role_list.length">
                 <img src="../assets/notFound.jpg" alt="No image found">
                 <h3>No Staff data found under this section.</h3>
             </div>
             <div v-else>
-                <div class="row m-1" v-for="role in filtered_list" :key="role.user_id">
+                <div class="row m-1" v-for="(role, index) in role_list" :key="index">
                     <div class="card position-relative" style="width: 84%; left: 5rem; min-height: 4em">
                         <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
                             <div class="flex-grow-1 justify-content-start">
@@ -32,7 +32,7 @@
                             </div>
                             <div class="align-self-center justify-content-end" v-if="selectedOption == 'approved'">
                                 <EditRole :user_id="role.user_id"></EditRole>
-                                <button class="btn btn-danger" :user_id="role.user_id" @click="DelRole">Delete</button>
+                                <button class="btn btn-danger" @click="DelRole">Delete</button>
                             </div>
                             <div class="align-self-center justify-content-end" v-else>
                                 <button class="btn btn-success"
@@ -60,7 +60,7 @@ export default {
     },
     data: function () {
         return {
-            filtered_list: [],
+            role_list: [],
             search: '',
             selectedOption: "approved",
             role: localStorage.getItem("role")
@@ -78,7 +78,7 @@ export default {
             })
                 .then(response => response.json())
                 .then((data) => {
-                    this.filtered_list = data;
+                    this.role_list = data;
                 })
                 .catch((err) => console.log(err));
         },
@@ -93,7 +93,7 @@ export default {
             })
                 .then(response => response.json())
                 .then((data) => {
-                    this.filtered_list = data;
+                    this.role_list = data;
                 })
                 .catch((err) => console.log(err));
         },
@@ -111,7 +111,7 @@ export default {
         },
         ApproveRole(user_id, subject_id) {
             if (confirm('Do you want to approve the staff?')) {
-                fetch(`http://127.0.0.1:5500/api/${user_id}`, {
+                fetch(`http://127.0.0.1:5500/api/role/${user_id}`, {
                     method: 'PUT',
                     headers: {
                         "Content-Type": "application/json",
@@ -123,9 +123,7 @@ export default {
                         status: true
                     })
                 })
-                    .then((response) => {
-                        return response.json()
-                    })
+                    .then(response => response.json())
                     .then((data) => {
                         if (data) {
                             window.location.reload();
