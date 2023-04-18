@@ -1,8 +1,7 @@
 <template>
     <div>
-        <button class="btn btn-block" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">Edit
-    </button>
+        <button class="btn btn-block" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
+        </button>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -21,19 +20,20 @@
                                 <p class="alert alert-danger">{{ errormsg }}</p>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" v-model="tag_name" class="form-control" id="floatingInput" placeholder="Tag Name" />
+                                <input type="text" v-model="tag_name" class="form-control" id="floatingInput"
+                                    placeholder="Tag Name" />
                                 <label for="floatingInput">New Tag Name</label>
                                 <div class="error" v-if="v$.tag_name.$error">
-                                Tag Name is required
+                                    Tag Name is required
                                 </div>
                             </div>
                             <button class="w-100 btn btn-lg btn-block" type="submit">
-                            Submit
+                                Submit
                             </button>
                         </form>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-                            Close
+                                Close
                             </button>
                         </div>
                     </div>
@@ -53,7 +53,7 @@ export default {
         };
     },
     name: "EditTag",
-    data : function(){
+    data: function () {
         return {
             tag_name: "",
             errormsg: "",
@@ -61,15 +61,15 @@ export default {
         };
     },
     props: ["tag_id", "TagType"],
-    validations(){
+    validations() {
         return {
             tag_name: { required },
         };
     },
     methods: {
-        EditTag: function(){
+        EditTag: function () {
             this.v$.$touch();
-            if(this.v$.$error){
+            if (this.v$.$error) {
                 console.log("fail")
             }
             else {
@@ -84,25 +84,25 @@ export default {
                         tag_name: this.tag_name
                     })
                 })
-                .then((response) => {
-                    return response.json()
-                })
-                .then((data) => {
-                    if (data){
-                        window.location.reload();
-                    }
-                    else {
+                    .then((response) => {
+                        return response.json()
+                    })
+                    .then((data) => {
+                        if (data) {
+                            window.location.reload();
+                        }
+                        else {
+                            this.errStatus = true;
+                            this.errormsg = data.error_message;
+                            this.tag_name = null;
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(err);
                         this.errStatus = true;
-                        this.errormsg = data.error_message;
-                        this.tag_name = null;
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    this.errStatus = true;
-                    this.errormsg = "This Tag already exists";
-                    this.tag_name = null
-                });
+                        this.errormsg = "This Tag already exists";
+                        this.tag_name = null
+                    });
             }
         },
     },
@@ -110,11 +110,11 @@ export default {
 </script>
 <style scoped>
 .btn-block {
-  background-color: rgb(107, 98, 255);
+    background-color: rgb(107, 98, 255);
 }
 
 .error {
-  text-align: left;
-  color: red;
+    text-align: left;
+    color: red;
 }
 </style>

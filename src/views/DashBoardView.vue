@@ -1,7 +1,6 @@
 <template>
   <div class="pb-5">
-    <NavBar :title="title" v-if="user_role == 'student'"></NavBar>
-    <NavBarAdmin v-else></NavBarAdmin>
+    <NavBar :title="title"></NavBar>
     <div v-if="!ready">
       <h1>Please wait Loading</h1>
     </div>
@@ -33,14 +32,14 @@
 </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
-import NavBarAdmin from "@/components/NavBarAdmin.vue";
+// import NavBarAdmin from "@/components/NavBarAdmin.vue";
 import router from "@/router";
 
 export default {
   name: "DashBoardView",
   components: {
     NavBar,
-    NavBarAdmin,
+    // NavBarAdmin,
   },
   data: function () {
     return {

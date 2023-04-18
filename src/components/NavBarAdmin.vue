@@ -18,7 +18,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="position-absolute top-0 end-0 mt-3 collapse navbar-collapse">
+            <div class="position-absolute top-0 end-0 mt-3 me-3 collapse navbar-collapse">
                 <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-danger">
                     Logout <i class="bi bi-box-arrow-right"></i>
                 </button>

@@ -24,9 +24,9 @@
           </li>
           <li class="nav-item">
             <div class="d-flex justify-content-end">
-              <form class="d-flex" role="search">
-                <input type="text" class="form-control me-2 search" placeholder="Search" aria-label="Search" />
-                <button type="submit" class="btn" style="font-size: large;"> <i class="bi bi-search"></i> </button>
+              <form class="search" @submit.prevent="search_function" role="search">
+                <input class="search" type="text" id="search" placeholder="Search Tag name here..." v-model="search" />
+                <button type="submit" class="btn btn-link"> <i class="bi bi-search"></i> </button>
               </form>
             </div>
           </li>

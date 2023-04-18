@@ -14,19 +14,22 @@
                         <h3>No tickets found under this section.</h3>
                     </div>
                     <div class="row m-1" v-for="ticket in filtered_list" :key="ticket.title">
-                        <div class="card position-relative"
-                            :class="[ticket.ticket_status == 'resolved' ? 'bg-success' : 'bg-danger']">
+                        <div class="card position-relative">
                             <div style="font-size: 2.5em" class="position-absolute">
                                 {{ ticket.likes }}
                             </div>
                             <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="mt-1">
+                                <span class="badge bg-success me-2" v-if="ticket.ticket_status == 'resolved'">
+                                    Resolved
+                                </span>
+                                <span class="badge bg-secondary me-2" v-else> Unresolved</span>
+
                                 <span class="badge bg-info me-2">{{ ticket.subject_name }}</span>
                                 <span class="badge bg-primary">{{ ticket.sec_name }}</span><br>
                                 <router-link :to="'/ticket/' + ticket.ticket_id">{{ ticket.title }}</router-link>
                             </div>
                         </div>
                     </div>
-                    <!-- <CreateTicket :subject_tag="subject_name" /> -->
                 </div>
             </div>
         </div>
@@ -36,12 +39,10 @@
 import NavBar from "@/components/NavBar.vue";
 import SideBar from "@/components/SideBar.vue";
 import router from "@/router";
-// import CreateTicket from "@/components/CreateTicket.vue";
 export default {
     name: 'SeacrhComp',
     components: {
         NavBar,
-        // CreateTicket,
         SideBar
     },
     data() {
@@ -138,7 +139,7 @@ input[type='text'].search {
     width: 65%;
     margin: auto;
     min-height: 4em;
-    background-color: #b8b4ff;
+    /* background-color: #b8b4ff; */
     color: #000;
     /* color: #653239; */
 }

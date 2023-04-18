@@ -13,6 +13,9 @@
         <router-link to="/dash" v-if="role == 'student'">
           <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
         </router-link>
+        <router-link to="/tag" v-else-if="role == 'admin'">
+          <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
+        </router-link>
         <router-link :to="'/subject/' + subject_name" v-else>
           <img src="../assets/logo1.png" alt="Logo" width="110" height="60" class="d-inline-block align-text-top" />
         </router-link>
