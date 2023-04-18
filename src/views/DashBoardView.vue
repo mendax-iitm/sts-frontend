@@ -35,7 +35,7 @@
 import NavBar from "@/components/NavBar.vue";
 import NavBarAdmin from "@/components/NavBarAdmin.vue";
 import router from "@/router";
-import NavBarAdmin from '@/components/NavBarAdmin.vue';
+
 export default {
   name: "DashBoardView",
   components: {
