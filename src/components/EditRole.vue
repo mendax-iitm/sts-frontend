@@ -1,9 +1,7 @@
 <template>
     <div>
-        <button class="btn btn-block" data-bs-toggle="modal"
-        data-bs-target="#exampleModal">Edit</button>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <button class="btn btn-block" data-bs-toggle="modal" data-bs-target="#editRole">Edit</button>
+        <div class="modal fade" id="editRole" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -13,27 +11,31 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="EditRole">
+                        <form @submit.prevent="editRole">
                             <div v-if="errStatus">
                                 <br />
                                 <p class="alert alert-danger">{{ errormsg }}</p>
                             </div>
                             <div class="form-check">
-                                <select v-model= "subject_id" class="form-select" aria-label="Default select example">
-                                    <option v-for="subject in subject_list" :key="subject.subject_name" :value="subject_id">{{ subject.subject_name }}</option>
+                                <select v-model="subject_id" class="form-select" aria-label="Default select example"
+                                    required>
+                                    <option v-for="subject in subject_list" :key="subject.subject_name"
+                                        :value="subject.subject_id">
+                                        {{ subject.subject_name }}
+                                    </option>
                                 </select>
                                 <div class="error" v-if="v$.subject_id.$error">
                                     Choose the subject to proceed
                                 </div>
                             </div>
                             <button class="w-100 btn btn-lg btn-block" type="submit">
-                            Submit
+                                Submit
                             </button>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-                        Close
+                            Close
                         </button>
                     </div>
                 </div>
@@ -52,43 +54,42 @@ export default {
         };
     },
     name: "EditRole",
-    data: function(){
+    data: function () {
         return {
             subject_id: "",
+            subject_list: [],
             errormsg: "",
             errStatus: false,
         };
     },
     props: ['user_id'],
-    validations(){
+    validations() {
         return {
             subject_id: { required },
         };
     },
-    method: {
-        EditRole: function(){
-            this.v$.$touch();
-            if(this.v$.$error){
-                console.log("fail")
-            }
-            else {
-                fetch(`http://127.0.0.1:5500/api/${this.user_id}`, {
-                    method: 'PUT',
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                        Authorization: "Bearer " + localStorage.getItem("access_token"),
-                    },
-                    body: JSON.stringify({
-                        subject_id: this.subject_id,
-                        status: true
-                    })
+    methods: {
+        editRole() {
+            // this.v$.$touch();
+            // if (this.v$.$error) {
+            //     console.log("fail")
+            // }
+            // else {
+            fetch(`http://127.0.0.1:5500/api/role/${this.user_id}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    Authorization: "Bearer " + localStorage.getItem("access_token"),
+                },
+                body: JSON.stringify({
+                    subject_id: this.subject_id,
+                    status: true
                 })
-                .then((response) => {
-                    return response.json()
-                })
+            })
+                .then(response => response.json())
                 .then((data) => {
-                    if (data){
+                    if (data) {
                         window.location.reload();
                     }
                     else {
@@ -103,18 +104,36 @@ export default {
                     this.errormsg = "Invalid subject";
                     this.subject_id = null
                 });
-            }
-        },
+        }
     },
+    // },
+    created() {
+        fetch(`http://127.0.0.1:5500/api/tag/subject`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+            },
+        })
+            .then(response => response.json())
+            .then((data) => {
+                if (data) {
+                    this.subject_list = data;
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 };
 </script>
 <style scoped>
 .btn-block {
-  background-color: rgb(107, 98, 255);
+    background-color: rgb(107, 98, 255);
 }
 
 .error {
-  text-align: left;
-  color: red;
+    text-align: left;
+    color: red;
 }
 </style>

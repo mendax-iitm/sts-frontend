@@ -8,13 +8,13 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/dash" class="nav-link" aria-current="page">Subjects</router-link>
-                    </li>
-                    <li class="nav-item">
                         <router-link to="/tag" class="nav-link" aria-current="page">Tags</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/role" class="nav-link" aria-current="page">Roles</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/dash" class="nav-link" aria-current="page">Subjects</router-link>
                     </li>
                 </ul>
             </div>
