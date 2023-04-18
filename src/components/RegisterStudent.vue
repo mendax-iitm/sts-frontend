@@ -138,7 +138,7 @@ export default {
           .catch((err) => {
             console.log(err);
             this.errStatus = true;
-            this.errormsg = "This user doesn't exist";
+            this.errormsg = "Problem in registering student";
             this.username = null;
             this.password = null;
           });

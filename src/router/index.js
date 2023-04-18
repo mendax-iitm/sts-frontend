@@ -9,6 +9,7 @@ import SubjectView from "../views/SubjectView.vue";
 import TicketView from "../views/TicketView.vue";
 import TagView from "../views/TagView.vue";
 import RoleView from "../views/RoleView.vue";
+import RegisterAdmin from "../components/RegisterAdmin.vue";
 const routes = [
   { path: "/", name: "home", component: HomeView },
   {
@@ -26,9 +27,18 @@ const routes = [
   { path: "/dash", name: "Student dashboard", component: DashBoardView },
   { path: "/tag", name: "tag Page", component: TagView },
   { path: "/role", name: "role Page", component: RoleView },
-  { path: "/subject/:subject", name: "Subject Dashboard", component: SubjectView },
+  {
+    path: "/subject/:subject",
+    name: "Subject Dashboard",
+    component: SubjectView,
+  },
   { path: "/ticket/:id", name: "Ticket Page", component: TicketView },
   { path: "/search/:search", name: "Search Page", component: SearchComp },
+  {
+    path: "/sc-admin-register",
+    name: "Register Admin",
+    component: RegisterAdmin,
+  },
 ];
 
 const router = createRouter({

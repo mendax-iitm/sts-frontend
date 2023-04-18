@@ -91,11 +91,7 @@ export default {
                 this.newLabel = '';
             }
         },
-        EditTag: function () {
 
-
-
-        },
     },
 };
 </script>
