@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link to="/dash" class="nav-link" aria-current="page" >Subjects</router-link>
+                        <router-link to="/dash" class="nav-link" aria-current="page">Subjects</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/tag" class="nav-link" aria-current="page">Tags</router-link>
@@ -19,7 +19,7 @@
                 </ul>
             </div>
             <div class="position-absolute top-0 end-0 mt-3 collapse navbar-collapse">
-                <button @click="logout" style="font-size: large; color: whitesmoke" class="btn">
+                <button @click="logout" style="font-size: large; color: whitesmoke" class="btn btn-danger">
                     Logout <i class="bi bi-box-arrow-right"></i>
                 </button>
             </div>
@@ -43,3 +43,4 @@ export default {
     },
 }
 </script>
+<style scoped></style>

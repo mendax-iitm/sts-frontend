@@ -137,6 +137,9 @@ export default {
                 localStorage.setItem("subject_name", data.subject_name)
                 return router.push(`/subject/${data.subject_name}`)
               }
+              // else if (data.role == 'admin') {
+              //   return router.push(`/tag`)
+              // }
               else { return router.push("/dash"); }
 
             } else {

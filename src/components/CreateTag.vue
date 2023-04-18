@@ -29,7 +29,7 @@
                             </div>
                             <div class="form-check">
                                 <select v-model= "TagType" class="form-select" aria-label="Default select example">
-                                    <option v-for="option in options" :key="option.value">{{ option.text }}</option>
+                                    <option v-for="option in this.options" :key="option.value" :value="option.value">{{ option.text }}</option>
                                 </select>
                                 <div class="error" v-if="v$.TagType.$error">
                                     Choose the tag type to proceed

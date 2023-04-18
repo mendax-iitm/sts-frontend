@@ -1,7 +1,7 @@
 <template>
   <div class="pb-5">
-    <NavBar :title="title"></NavBar>
-    <nav-bar-admin/>
+    <NavBar :title="title" v-if="user_role == 'student'"></NavBar>
+    <NavBarAdmin v-else></NavBarAdmin>
     <div v-if="!ready">
       <h1>Please wait Loading</h1>
     </div>
@@ -33,6 +33,7 @@
 </template>
 <script>
 import NavBar from "@/components/NavBar.vue";
+import NavBarAdmin from "@/components/NavBarAdmin.vue";
 import router from "@/router";
 import NavBarAdmin from '@/components/NavBarAdmin.vue';
 export default {
@@ -43,6 +44,7 @@ export default {
   },
   data: function () {
     return {
+      user_role: "",
       title: "Student Dashboard",
       subjects: {},
       ready: false,
@@ -61,6 +63,7 @@ export default {
   },
 
   beforeMount() {
+    this.user_role = localStorage.getItem('role')
     if (localStorage.getItem('access_token') == null) {
       alert('Please Login First.')
       return router.push('/')

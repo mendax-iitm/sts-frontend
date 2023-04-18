@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button class="btn btn-block" style="font-size: 4rem" data-bs-toggle="modal"
+        <button class="btn btn-block" data-bs-toggle="modal"
         data-bs-target="#exampleModal">Edit
     </button>
 
