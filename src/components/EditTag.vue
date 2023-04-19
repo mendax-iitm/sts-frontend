@@ -1,44 +1,25 @@
 <template>
     <div>
-      <div v-if="!editing">
-        <label>{{ label }}</label>
-        
-        <i
-        @click="editing = true, newLabel = label"
-          class="bi bi-pencil text-primary h5 mx-2"
-          data-toggle="tooltip"
-           
-          data-placement="top"
-          title="Edit"
-        ></i> 
-      </div>
-      <div v-else>
-        <input type="text" class="no-border" v-model="newLabel">
-        <i
-        @click="saveNewLabel"
-          class="bi bi-check-lg text-success h5"
-          data-toggle="tooltip"
-          style="font-size: 2rem" 
-          data-placement="top"
-          title="Save"
-        ></i>
-       
-        <i
-        @click="editing = false"    
-          class="bi bi-x text-danger h5"
-          data-toggle="tooltip"
-          style="font-size: 2rem" 
-          data-placement="top"
-          title="Save"
-        ></i>
-      </div>
+        <div v-if="!editing">
+            <label>{{ label }}</label>
+
+            <i @click="editing = true, newLabel = label" class="bi bi-pencil text-primary h5 mx-2" data-toggle="tooltip"
+                data-placement="top" title="Edit"></i>
+        </div>
+        <div v-else>
+            <input type="text" class="no-border" v-model="newLabel">
+            <i @click="saveNewLabel" class="bi bi-check-lg text-success h5" data-toggle="tooltip" style="font-size: 2rem"
+                data-placement="top" title="Save"></i>
+
+            <i @click="editing = false" class="bi bi-x text-danger h5" data-toggle="tooltip" style="font-size: 2rem"
+                data-placement="top" title="Save"></i>
+        </div>
     </div>
-  </template>
+</template>
 <script>
 
 
 export default {
-
     name: "EditTag",
     data: function () {
         return {
@@ -91,7 +72,6 @@ export default {
                 this.newLabel = '';
             }
         },
-
     },
 };
 </script>
@@ -99,8 +79,6 @@ export default {
 .btn-block {
     background-color: rgb(107, 98, 255);
 }
-
-
 
 .error {
     text-align: left;

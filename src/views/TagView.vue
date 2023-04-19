@@ -26,10 +26,8 @@
           <div class="row m-3" v-for="tag in filtered_list" :key="tag.subject_id">
             <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex mt-1">
-                <EditTag :label="tag.subject_name" 
-        :tag_id="tag.subject_id" 
-        TagType="subject"
-        @update-label="updateLabel"/>
+                <EditTag :label="tag.subject_name" :tag_id="tag.subject_id" TagType="subject"
+                  @update-label="updateLabel" />
               </div>
             </div>
           </div>
@@ -38,11 +36,8 @@
           <div class="row m-3" v-for="tag in filtered_list" :key="tag.sec_id">
             <div class="card position-relative" style="min-height: 4em; width: 50%;">
               <div style="font-size: 1.5em; width: 90%; margin-left: 2.5em" class="d-flex justify-content-between mt-1">
-              
-        <EditTag :label="tag.sec_name" 
-        :tag_id="tag.sec_id" 
-        TagType="secondary"
-        @update-label="updateLabel"/>
+
+                <EditTag :label="tag.sec_name" :tag_id="tag.sec_id" TagType="secondary" @update-label="updateLabel" />
               </div>
             </div>
           </div>
