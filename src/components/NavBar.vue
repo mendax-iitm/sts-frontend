@@ -8,6 +8,11 @@
     <span class="text-center" v-else>
       <p class="h1 pt-2">{{ title }}</p>
     </span>
+    <div class="position-absolute top-0 end-0 mt-2 me-2">
+      <router-link to="/profile" style="font-size: large; color: whitesmoke" class="btn btn-info">
+        <i class="bi bi-person-circle"></i>
+      </router-link>
+    </div>
     <div class="position-relative ms-4 me-4 pb-3">
       <span>
         <router-link to="/dash" v-if="role == 'student'">
@@ -29,6 +34,7 @@
           Logout <i class="bi bi-box-arrow-right"></i>
         </button>
       </div>
+
       <!-- <hr class="border border-primary border-2 opacity-100" /> -->
     </div>
   </header>
