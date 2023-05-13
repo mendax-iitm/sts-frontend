@@ -1,11 +1,13 @@
 <template>
   <div>
     <NavBar title="Profile" />
+    Name: {{ username }}
+    Role: {{ role }}
+    Email: {{ email }}
   </div>
 </template>
 
 <script>
-// import CreateTicket from "./CreateTicket.vue";
 import NavBar from "@/components/NavBar.vue"
 export default {
   name: "ProfileView",
@@ -14,11 +16,13 @@ export default {
   },
   data() {
     return {
-      username: "",
+      username: '',
+      role: '',
+      email: '',
     }
   },
   methods: {},
-  beforeCreate() {
+  beforeMount() {
     // fetch user details from api
     fetch(`http://127.0.0.1:5500/api/register`,
       {
@@ -30,7 +34,11 @@ export default {
         },
       }
     ).then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        this.username = data.username
+        this.role = data.role
+        this.email = data.email
+      })
   }
 };
 </script>
