@@ -6,7 +6,7 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
             <li><router-link to="/profile" class="dropdown-item">Profile</router-link></li>
-            <li><a class="dropdown-item" href="">Test</a></li>
+            <li><a class="dropdown-item" href="">My Posts</a></li>
             <li>
                 <hr class="dropdown-divider">
             </li>

@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <NavBar title="Profile" />
-    Name: {{ username }}
-    Role: {{ role }}
-    Email: {{ email }}
+  <NavBar title="Profile" />
+  <div class="text-center">
+    <div class="card" style="width: 20%;">
+      <div class="card-body">
+        Name: {{ username }} <br>
+        Role: {{ role }} <br>
+        Email: {{ email }} <br>
+      </div>
+    </div>
   </div>
 </template>
 
